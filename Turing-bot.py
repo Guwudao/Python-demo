@@ -3,7 +3,7 @@ import requests
 url = "http://openapi.tuling123.com/openapi/api/v2"
 
 parameter_json = {
-                    "reqType":0,
+                    "reqType": 0,
                     "perception": {
                         "inputText": {
                             "text": "你是谁??"

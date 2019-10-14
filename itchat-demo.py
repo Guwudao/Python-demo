@@ -58,18 +58,28 @@ print(myself)
 @itchat.msg_register(itchat.content.INCOME_MSG)
 def text_reply(msg):
 
+    if msg["User"]["NickName"] == "CTT" or msg["User"]["NickName"] == "JJ" or msg["User"]["NickName"] == "fat fish":
+        # print("自己人，别乱来")
+        print("{} ---> {}".format(msg["User"]["NickName"], msg.text))
+        return
+
     if myself == msg["ToUserName"]:
         if isinstance(msg.text, str):
             content = msg.text
 
+            print(msg["User"]["NickName"] == "JJ")
+
             result = re.match(r"(.*)[，,](.*)[，,](.*)[，,](.*)[，,](.*)", content)
 
             if result:
-                p = Person(*result.groups())
+                try:
+                    p = Person(*result.groups())
+                except Exception:
+                    return "我是个么得感情的复读机 -- 但我并不打算复读这个"
                 # print(p.get_body_fat)
                 itchat.send_msg(p.get_body_fat, toUserName=msg["FromUserName"])
             else:
-                # print(msg)
+                print(msg)
                 return "我是个么得感情的复读机:\n {}".format(msg.text)
 
         elif msg["Type"] == "Picture":
@@ -79,13 +89,6 @@ def text_reply(msg):
             return "我是个么得感情的复读机 -- 但我并不打算复读这个"
         else:
             return "我是个么得感情的复读机:\n {}".format(msg)
-
-
-
-
-
-
-
 
 
 itchat.run()
