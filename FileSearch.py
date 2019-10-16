@@ -1,7 +1,7 @@
 import os
 import shutil
 
-path = "/Users/jackie/Downloads/Python阶段资料"
+path = "/Users/jackie/Downloads/Python阶段资料/04-异常处理"
 
 if not os.path.exists(path):
     exit()
@@ -19,7 +19,7 @@ print(os.getcwd())
     #         print("--" + sub_files)
 
 
-def file_traverse(file_name, index = 0):
+def file_traverse(file_name, index=0):
     index += 1
     if os.path.isdir(file_name):
         for sub_file in os.listdir(file_name):
