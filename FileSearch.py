@@ -12,13 +12,6 @@ file_list = os.listdir("./")
 
 print(os.getcwd())
 
-# for file_name in file_list:
-    # print("-" + file_name)
-    # if os.path.isdir(file_name):
-    #     for sub_files in os.listdir(file_name):
-    #         print("--" + sub_files)
-
-
 def file_traverse(file_name, index=0):
     index += 1
     # print("----------> current: " + file_name)
