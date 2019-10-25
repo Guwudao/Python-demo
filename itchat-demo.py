@@ -55,10 +55,10 @@ myself = itchat.get_friends()[0]["UserName"]
 print(myself)
 
 
-@itchat.msg_register(itchat.content.INCOME_MSG)
+@itchat.msg_register(itchat.content.TEXT)
 def text_reply(msg):
 
-    if msg["User"]["NickName"] == "CTT" or msg["User"]["NickName"] == "JJ" or msg["User"]["NickName"] == "fat fish":
+    if msg["User"]["NickName"] == "CTT" or msg["User"]["NickName"] == "JJ1" or msg["User"]["NickName"] == "fat fish":
         # print("自己人，别乱来")
         print("{} ---> {}".format(msg["User"]["NickName"], msg.text))
         return
