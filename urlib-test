@@ -1,0 +1,15 @@
+from urllib import request
+
+url = "https://www.977yt.com"
+baidu_url = "https://www.baidu.com"
+
+# resp = request.Request(baidu_url)
+
+# result = request.urlopen(resp)
+# print(resp)
+
+mp3_url = "http://mvoice.spriteapp.cn/voice/2016/0517/573b1240d0118.mp3"
+
+resp = request.urlopen(mp3_url)
+
+print(type(resp))

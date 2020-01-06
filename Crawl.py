@@ -16,8 +16,8 @@ link = "http://www.santostang.com"
 #
 # print(title)
 
-base_url = "https://www.977yt.com/"
-video_url = "https://www.977yt.com/shipin/list-短视频.html"
+base_url = "https://www.952bqz.com/index/home.html"
+video_url = "https://www.952bqz.com/shipin/list-国产精品.html"
 # porn_link = "shipin"
 
 response = requests.get(video_url)

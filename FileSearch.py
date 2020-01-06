@@ -1,7 +1,9 @@
 import os
 # import shutil
 
-path = "/Users/jackie/Downloads/龙珠"
+# path = "/Users/jackie/Downloads/龙珠"
+# path = input("请输入文件夹路径: ")
+path = "/Users/jackie/Downloads/Others"
 
 if not os.path.exists(path):
     exit()
@@ -24,6 +26,7 @@ def file_rename(old_name, new_name, index=0):
                 print(current_name)
             else:
                 current_name = "%s.%s" % (new_name, suffix)
+
             os.rename(old_name, current_name)
         else:
             os.rename(old_name, new_name)
@@ -43,7 +46,10 @@ def file_traverse(file_name, index=0):
             sub_path = file_name + "/" + sub_file
             file_traverse(sub_path, index)
     else:
-        print(file_name)
+        # suffix = file_name.split('.')[-1]
+        # if suffix == "xltd":
+        #     print(file_name)
+        #     os.remove(file_name)
         return
 
 
