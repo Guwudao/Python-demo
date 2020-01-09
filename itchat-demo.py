@@ -1,9 +1,17 @@
 import itchat
 import re
+import requests
 
 # itchat.send_msg("this is a test message", toUserName="filehelper")
 
+url = "http://openapi.tuling123.com/openapi/api/v2"
+
+signal_thread = "0e4dc4f3608b4da38dbbac4c746b6428"
+not_robot_key = "7714085bddd24e7aa77b071d8eaec5db"
+
+
 class Person:
+
     def __init__(self, name, age, height, weight, gender):
         self.name = name
         self.age = age
@@ -65,22 +73,23 @@ def text_reply(msg):
 
     if myself == msg["ToUserName"]:
         if isinstance(msg.text, str):
-            content = msg.text
+            content = TuringBot.automatic_reply(msg.text)
+            itchat.send_msg(content, toUserName=msg["FromUserName"])
 
-            print(msg["User"]["NickName"] == "JJ")
-
-            result = re.match(r"(.*)[，,](.*)[，,](.*)[，,](.*)[，,](.*)", content)
-
-            if result:
-                try:
-                    p = Person(*result.groups())
-                except Exception:
-                    return "我是个么得感情的复读机 -- 但我并不打算复读这个"
-                # print(p.get_body_fat)
-                itchat.send_msg(p.get_body_fat, toUserName=msg["FromUserName"])
-            else:
-                print(msg)
-                return "我是个么得感情的复读机:\n {}".format(msg.text)
+            # print(msg["User"]["NickName"] == "JJ")
+            #
+            # result = re.match(r"(.*)[，,](.*)[，,](.*)[，,](.*)[，,](.*)", content)
+            #
+            # if result:
+            #     try:
+            #         p = Person(*result.groups())
+            #     except Exception:
+            #         return "我是个么得感情的复读机 -- 但我并不打算复读这个"
+            #     # print(p.get_body_fat)
+            #     itchat.send_msg(p.get_body_fat, toUserName=msg["FromUserName"])
+            # else:
+            #     print(msg)
+            #     return "我是个么得感情的复读机:\n {}".format(msg.text)
 
         elif msg["Type"] == "Picture":
             for detail in msg:
@@ -90,5 +99,31 @@ def text_reply(msg):
         else:
             return "我是个么得感情的复读机:\n {}".format(msg)
 
+
+class TuringBot:
+
+    url = "http://openapi.tuling123.com/openapi/api/v2"
+
+    singal_thread = "0e4dc4f3608b4da38dbbac4c746b6428"
+    not_robot_key = "7714085bddd24e7aa77b071d8eaec5db"
+
+    @classmethod
+    def automatic_reply(cls, text):
+
+        parameter_json = {
+                            "reqType": 0,
+                            "perception": {
+                                "inputText": {
+                                    "text": text
+                                }
+                            },
+                            "userInfo": {
+                                "apiKey": cls.not_robot_key,
+                                "userId": "single"
+                            }
+                        }
+
+        response = requests.post(cls.url, json=parameter_json)
+        return response.json()["results"][0]["values"]["text"]
 
 itchat.run()
