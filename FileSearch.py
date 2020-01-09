@@ -1,7 +1,7 @@
 import os
 # import shutil
 
-path = "/Users/jackie/Downloads/龙珠"
+path = "/Users/jj/Desktop/book/"
 
 if not os.path.exists(path):
     exit()
@@ -29,9 +29,9 @@ def file_traverse(file_name, index=0):
 
     if os.path.isdir(file_name):
         for sub_file in os.listdir(file_name):
-            # print(index * "-" + sub_file)
-            num = filter(str.isdigit(), sub_file)
-            print(num)
+            print(index * "-" + sub_file)
+            # num = filter(str.isdigit(), sub_file)
+            # print(num)
 
             # 重命名
             # index += 1
