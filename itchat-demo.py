@@ -53,7 +53,6 @@ class Person:
         print("BMI = %f" % bmi, "体脂率 = %f" % body_fat)
 
         result_str = "{} 您好，您的体脂率是{}, 正常体脂率的范围是{} - {}, 您的体型属于{}".format(self.name, body_fat, min_fat, max_fat, result)
-
         return result_str
 
 
@@ -74,7 +73,10 @@ def text_reply(msg):
     if myself == msg["ToUserName"]:
         if isinstance(msg.text, str):
             content = TuringBot.automatic_reply(msg.text)
-            itchat.send_msg(content, toUserName=msg["FromUserName"])
+            if content == "请求次数超限制!":
+                return "我变成个么得感情的复读机了:\n {}".format(msg.text)
+            else:
+                itchat.send_msg(content, toUserName=msg["FromUserName"])
 
             # print(msg["User"]["NickName"] == "JJ")
             #
@@ -125,5 +127,6 @@ class TuringBot:
 
         response = requests.post(cls.url, json=parameter_json)
         return response.json()["results"][0]["values"]["text"]
+
 
 itchat.run()

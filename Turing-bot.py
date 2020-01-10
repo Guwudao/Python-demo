@@ -11,18 +11,18 @@ class TuringBot:
     @classmethod
     def automatic_reply(cls, text):
 
-        parameter_json = {
+        parameter_json = """{
                             "reqType": 0,
                             "perception": {
                                 "inputText": {
-                                    "text": text
+                                    "text": %s
                                 }
                             },
                             "userInfo": {
                                 "apiKey": cls.not_robot_key,
                                 "userId": "single"
                             }
-                        }
+                        }""" % text
 
         response = requests.post(cls.url, json=parameter_json)
         return response.json()["results"][0]["values"]["text"]
