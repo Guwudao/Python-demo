@@ -1,6 +1,7 @@
 import itchat
 import re
 import requests
+from lxml import etree
 
 # itchat.send_msg("this is a test message", toUserName="filehelper")
 
@@ -62,7 +63,7 @@ myself = itchat.get_friends()[0]["UserName"]
 print(myself)
 
 
-@itchat.msg_register(itchat.content.TEXT)
+@itchat.msg_register(itchat.content.INCOME_MSG)
 def text_reply(msg):
 
     if msg["User"]["NickName"] == "CTT" or msg["User"]["NickName"] == "JJ1" or msg["User"]["NickName"] == "fat fish":
@@ -73,6 +74,7 @@ def text_reply(msg):
     if myself == msg["ToUserName"]:
         if isinstance(msg.text, str):
             content = TuringBot.automatic_reply(msg.text)
+            print("机器人：%s" % content)
             if content == "请求次数超限制!":
                 return "我变成个么得感情的复读机了:\n {}".format(msg.text)
             else:
@@ -94,9 +96,14 @@ def text_reply(msg):
             #     return "我是个么得感情的复读机:\n {}".format(msg.text)
 
         elif msg["Type"] == "Picture":
-            for detail in msg:
-                print(detail)
 
+            print(msg["Content"])
+            print("--"*40)
+            html_lxml = etree.HTML(msg["Content"])
+            cdnurl = html_lxml.xpath("//emoji/@cdnurl")
+            print(cdnurl)
+
+            itchat.send_msg(cdnurl[0], toUserName=msg["FromUserName"])
             return "我是个么得感情的复读机 -- 但我并不打算复读这个"
         else:
             return "我是个么得感情的复读机:\n {}".format(msg)
@@ -106,7 +113,7 @@ class TuringBot:
 
     url = "http://openapi.tuling123.com/openapi/api/v2"
 
-    singal_thread = "0e4dc4f3608b4da38dbbac4c746b6428"
+    signal_thread = "0e4dc4f3608b4da38dbbac4c746b6428"
     not_robot_key = "7714085bddd24e7aa77b071d8eaec5db"
 
     @classmethod

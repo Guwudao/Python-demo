@@ -2,7 +2,7 @@ import os
 # import shutil
 
 
-#path = "/Users/jj/Desktop/book/"
+# path = "/Users/jj/Desktop/book/"
 # path = "/Users/jackie/Downloads/龙珠"
 # path = input("请输入文件夹路径: ")
 path = "/Users/jackie/Downloads/Others"
