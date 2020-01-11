@@ -1,7 +1,8 @@
 import itchat
-import re
+from itchat.content import *
 import requests
 from lxml import etree
+import re
 
 # itchat.send_msg("this is a test message", toUserName="filehelper")
 
@@ -63,13 +64,34 @@ myself = itchat.get_friends()[0]["UserName"]
 print(myself)
 
 
-@itchat.msg_register(itchat.content.INCOME_MSG)
+@itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
+def download_files(msg):
+
+    # if msg["User"]["NickName"] == "CTT" or msg["User"]["NickName"] == "JJ1" or msg["User"]["NickName"] == "fat fish":
+    #     # print("自己人，别乱来")
+    #     print("{} ---> {}".format(msg["User"]["NickName"], msg))
+    #     return
+
+    print(msg)
+
+    if not msg["Content"]:
+        return "我是个么得感情的复读机 -- 但我并不打算复读这个"
+    else:
+        msg.download(msg.fileName)
+        type_symbol = {
+            PICTURE: 'img',
+            VIDEO: 'vid', }.get(msg.type, 'fil')
+        itchat.send_msg("看我反弹大法！！！", toUserName=msg["FromUserName"])
+        return '@%s@%s' % (type_symbol, msg.fileName)
+
+
+@itchat.msg_register(itchat.content.TEXT)
 def text_reply(msg):
 
-    if msg["User"]["NickName"] == "CTT" or msg["User"]["NickName"] == "JJ1" or msg["User"]["NickName"] == "fat fish":
-        # print("自己人，别乱来")
-        print("{} ---> {}".format(msg["User"]["NickName"], msg.text))
-        return
+    # if msg.user["NickName"] == "CTT" or msg.user["NickName"] == "JJ1" or msg.user["NickName"] == "fat fish":
+    #     # print("自己人，别乱来")
+    #     print("{} ---> {}".format(msg["User"]["NickName"], msg.text))
+    #     return
 
     if myself == msg["ToUserName"]:
         if isinstance(msg.text, str):
@@ -95,7 +117,7 @@ def text_reply(msg):
             #     print(msg)
             #     return "我是个么得感情的复读机:\n {}".format(msg.text)
 
-        elif msg["Type"] == "Picture":
+        elif msg.type == "Picture":
 
             print(msg["Content"])
             print("--"*40)
