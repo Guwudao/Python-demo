@@ -2,6 +2,7 @@ import itchat
 from itchat.content import *
 import requests
 from lxml import etree
+from pyecharts.charts import Bar
 import re
 
 # itchat.send_msg("this is a test message", toUserName="filehelper")
@@ -60,17 +61,79 @@ class Person:
 
 itchat.auto_login(hotReload=True)
 
-myself = itchat.get_friends()[0]["UserName"]
-print(myself)
+print(itchat.get_friends()[0]["City"])
+
+friends = itchat.get_friends()
+sex_title = ["未知", "男", "女"]
+sex_count = [0, 0, 0]
+
+location = ["湛江", "广州", "深圳", "东莞", "佛山", "珠海", "清远", "西安", "成都"]
+index = len(location)
+city_count = []
+test = []
+
+for count in range(index):
+    city_count.append(0)
+
+# print(index, city_count)
+for friend in friends:
+    sex = friend["Sex"]
+    sex_count[sex] += 1
+    # print(friend["City"])
+
+    city = friend["City"]
+    if city not in test:
+        test.append(city)
+
+    # for i in range(index):
+    #     if city == location[i]:
+    #         city_count[i] += 1
+
+
+print(test)
+length = len(test)
+
+for count in range(length):
+    city_count.append(0)
+
+for friend in friends:
+
+    city = friend["City"]
+    for i in range(length):
+        if city == test[i]:
+            city_count[i] += 1
+
+print(city_count)
+# print(len(test), len(city_count))
+#
+# for index in range(len(test)):
+#     if int(city_count[index]) < 5:
+#         test.pop(index)
+#
+# print(test)
+
+new_city = [(i, j) for i, j in zip(test, city_count) if j >= 5]
+print(new_city)
+
+# bar_sex = Bar()
+# bar_sex.add_xaxis(sex_title)
+# bar_sex.add_yaxis("微信好友性别数据统计", sex_count)
+# bar_sex.render("sex.html")
+
+# bar_city = Bar()
+# bar_city.add_xaxis(location)
+# bar_city.add_yaxis("微信好友地区数据统计", city_count)
+# bar_city.render("city.html")
+
 
 
 @itchat.msg_register([PICTURE, RECORDING, ATTACHMENT, VIDEO])
 def download_files(msg):
 
-    # if msg["User"]["NickName"] == "CTT" or msg["User"]["NickName"] == "JJ1" or msg["User"]["NickName"] == "fat fish":
-    #     # print("自己人，别乱来")
-    #     print("{} ---> {}".format(msg["User"]["NickName"], msg))
-    #     return
+    if msg["User"]["NickName"] == "CTT" or msg["User"]["NickName"] == "JJ1" or msg["User"]["NickName"] == "fat fish":
+        # print("自己人，别乱来")
+        print("{} ---> {}".format(msg["User"]["NickName"], msg))
+        return
 
     print(msg)
 
@@ -92,7 +155,7 @@ def text_reply(msg):
     #     # print("自己人，别乱来")
     #     print("{} ---> {}".format(msg["User"]["NickName"], msg.text))
     #     return
-
+    myself = itchat.get_friends()[0]["UserName"]
     if myself == msg["ToUserName"]:
         if isinstance(msg.text, str):
             content = TuringBot.automatic_reply(msg.text)
