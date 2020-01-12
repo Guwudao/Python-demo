@@ -4,7 +4,8 @@ list = [('深圳', 117), ('广州', 191), ('', 163), ('湛江', 88), ('郑州', 
 city = []
 count = []
 
-list.sort(key=lambda x:x[1])
+list.sort(key=lambda x: x[1])
+list.reverse()
 print(list)
 
 for i, j in list:
@@ -12,10 +13,10 @@ for i, j in list:
         city.append(i)
         count.append(j)
 
-print(city, count)
+# print(city, count)
 
 bar = Bar()
 bar.add_xaxis(city)
-bar.add_yaxis("好友地区数量统计", count)
+bar.add_yaxis("微信好友地区数量统计", count)
 
 bar.render()
