@@ -12,8 +12,11 @@ for i, j in list:
     if len(i):
         city.append(i)
         count.append(j)
+    else:
+        city.append("未知")
+        count.append(j)
 
-# print(city, count)
+print(city, count)
 
 bar = Bar()
 bar.add_xaxis(city)
