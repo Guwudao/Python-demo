@@ -29,7 +29,7 @@ response.encoding = 'utf8'
 
 soup = BeautifulSoup(response.text, "lxml")
 a_lable_list = soup.find_all("a")
-# print(a_lable_list)
+print(a_lable_list)
 
 
 for label in a_lable_list:

@@ -11,13 +11,6 @@ path = "/Users/jackie/Downloads/Others"
 if not os.path.exists(path):
     exit()
 
-# os.chdir(path)
-# file_list = os.listdir("./")
-# print(file_list)
-
-# print(os.getcwd())
-# os.rename('1 (1).jpg', 'new.jpg')
-
 
 def file_rename(old_name, new_name, index=0):
     if os.path.exists(old_name):
