@@ -5,16 +5,16 @@ import subprocess
 video_list = []
 
 
-def get_all_videos(path):
+def get_all_videos(file_path):
 
-    for file_name in os.listdir(path):
+    for file_name in os.listdir(file_path):
         # print(file_name)
-        new_path = os.path.join(path, file_name)
+        new_path = os.path.join(file_path, file_name)
         if os.path.isdir(new_path):
             get_all_videos(new_path)
 
         elif os.path.isfile(new_path):
-            result = re.match(r".+\.(rmvb)$", new_path)
+            result = re.match(r".+\.(mp4|mkv)$", new_path)
             if result:
                 video_list.append(new_path)
 
@@ -31,7 +31,7 @@ def file_processing(file_list):
 
     for file_name in file_list:
         old_name = file_name.split(".")
-        new_name = old_name[0] + "_new.mp4"
+        new_name = old_name[0] + "_new.mkv"
         # print(new_name)
 
         command = code_pre + file_name + code_mid + new_name
