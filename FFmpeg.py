@@ -27,7 +27,7 @@ def get_all_videos(file_path):
 def file_processing(file_list):
     print("start----------------")
     code_pre = "ffmpeg -i "
-    code_mid = " -b:v 640k "
+    code_mid = " -vcodec libx264 -crf 20 "
 
     for file_name in file_list:
         old_name = file_name.split(".")

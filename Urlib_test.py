@@ -1,4 +1,5 @@
 from urllib import request, parse
+import json
 
 fuli_url = "https://www.977yt.com"
 
@@ -17,10 +18,11 @@ parameter = {
 }
 
 data = parse.urlencode(parameter)
-print(data)
 response = request.urlopen(study_url, data=bytes(data, encoding="utf-8"))
-print(response.getheader("content-type"))
-print(response.read().decode("utf-8"))
+# print(response.getheader("content-type"))
+json_str = response.read().decode("utf-8")
+resp_dict = json.loads(json_str, encoding="utf-8")
+print(resp_dict["results"]["resultPagination"]["query"])
 
 
 def image_download():
