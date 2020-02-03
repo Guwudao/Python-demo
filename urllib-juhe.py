@@ -1,4 +1,5 @@
 from urllib import request, parse
+import ssl
 
 
 def jh_crawl():
@@ -50,4 +51,56 @@ def qb_crawl():
     print(resp.getcode())
 
 
-qb_crawl()
+def untrust_cert():
+    url = "https://www.1234.com"
+
+    resp = request.urlopen(url, context=ssl.create_default_context(cafile="", capath=""))
+
+    print(resp.getcode())
+    print(resp.read().decode("utf-8"))
+
+
+def proxy_charles():
+    url = "http://www.itlike.com"
+
+    proxy = "171.12.113.215:8888"
+
+    proxy_handler = request.ProxyHandler({"http": proxy})
+    opener = request.build_opener(proxy_handler)
+    resp = opener.open(url)
+
+    print(resp.read().decode("utf-8"))
+
+
+def proxy_demo():
+    url = "http://httpbin.org/ip"
+
+    """
+    171.12.113.215
+    110.243.10.91
+    
+    """
+    proxy = "110.243.10.91:9999"
+    # handler = request.HTTPHandler()
+    proxy_handler = request.ProxyHandler({"http": proxy})
+    opener = request.build_opener(proxy_handler)
+    resp = opener.open(url)
+
+    print(resp.read().decode("utf-8"))
+
+
+# proxy_demo()
+
+
+a = [6, 1, 2, 3, 4, 1, 5, 6, 3, 2]
+b = {}
+print(list(b.fromkeys(a)))
+
+# test_url = "https://p.cnkamax.com/upload18files/5eca5889f09b6ade22cefa21d9b1acdf/5eca5889f09b6ade22cefa21d9b1acdf.m3u8?md5=pHcTUQUaeioGmgwgNvnGJg&expires=1580041115"
+#
+# resp = request.urlopen(test_url)
+# print(resp.getcode())
+# print(resp.getheader("content-type"))
+# print(resp.read())
+# with open("test.mp4", "w") as f:
+#     f.write(resp.read().decode("utf-8"))

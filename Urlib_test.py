@@ -63,5 +63,3 @@ def image_download():
 # if resp.getcode() == 200:
 #     with open("mm.mp4", "wb") as f:
 #         f.write(resp.read())
-
-
