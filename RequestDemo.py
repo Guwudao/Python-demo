@@ -20,4 +20,33 @@ def study163():
     print(resp.text)
 
 
-study163()
+# study163()
+
+
+def juhe_news():
+    url = "http://v.juhe.cn/toutiao/index"
+    params = {
+        "key": "b2d83e113c1e52d875122ad241ceabd3"
+    }
+
+    resp = requests.get(url, params=params)
+    print(resp.status_code)
+    data_list = resp.json()["result"]["data"]
+    for data in data_list:
+        print(data)
+
+# juhe_news()
+
+def juhe_cp():
+    name = input("请输入菜名: ")
+    url = "http://apis.juhe.cn/cook/query.php"
+    params = {
+        "menu": name,
+        "key": "3a61638fad5dbab9c786216420b00b4c"
+    }
+
+    resp = requests.get(url, params=params)
+    print(resp.status_code)
+    print(resp.json())
+
+juhe_cp()
