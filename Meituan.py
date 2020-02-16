@@ -1,6 +1,11 @@
 import requests
 
-ak = "PmkYQbXLGxqHnQvRktDZCGMSHGOil2Yx"
+
+class Config:
+    ak = "PmkYQbXLGxqHnQvRktDZCGMSHGOil2Yx"
+    ride_url_temp = "http://api.map.baidu.com/direction/v2/riding?origin={},{}&destination={},{}&ak={}"
+    baidu_map_url_temp = "http://api.map.baidu.com/geocoding/v3/?address={}&output=json&ak={}"
+    wm_get_url = "https://apimobile.meituan.com/group/v4/poi/pcsearch/278"
 
 def ride_indication(address, shop_list):
 
@@ -27,7 +32,7 @@ def ride_indication(address, shop_list):
     des_lat = shop["latitude"]
     des_lng = shop["longitude"]
 
-    ride_url = "http://api.map.baidu.com/direction/v2/riding?origin={},{}&destination={},{}&ak={}".format(orig_lat, orig_lng, des_lat, des_lng, ak)
+    ride_url = Config.ride_url_temp.format(orig_lat, orig_lng, des_lat, des_lng, Config.ak)
     route_resp = requests.get(ride_url)
     # print(route_resp.json()["result"]["routes"]["steps"])
 
@@ -35,32 +40,31 @@ def ride_indication(address, shop_list):
     step_list = result["routes"][0]["steps"]
 
     for step in step_list:
-        print(step["instructions"])
+        print(step["instructions"], step["turn_type"])
 
-def meituan_get(key, address):
-    print(address)
+def meituan_get(key):
+    lat, lng = get_address()
     get_header = {
         "uuid": "5DBAEC411BBD1E5C20EE784F5827EDA5B8E62FB5197A319B67812B49E6634DE0",
-        "myLng": address[0],
+        "myLng": lng,
         "utm_medium": "iphone",
-        "myLat": address[1],
+        "myLat": lat,
         "open_id": "oJVP50OIunB7-0GeCAihfS71QT5g",
         "User-Agent" : "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16A366 MicroMessenger/7.0.10(0x17000a21) NetType/WIFI Language/zh_CN"
     }
 
     get_params = {
         "limit": "15",
-        "mypos": "{},{}".format(address[0], address[1]),
+        "mypos": "{},{}".format(lat, lng),
         "cityId": "278",
         "q": key
     }
 
     # get
-    get_url = "https://apimobile.meituan.com/group/v4/poi/pcsearch/278"
-    get_resp = requests.get(get_url, params=get_params, headers=get_header, verify=False)
+    get_resp = requests.get(Config.wm_get_url, params=get_params, headers=get_header, verify=False)
     result_list = get_resp.json()["data"]["searchResult"]
 
-    ride_indication(address, result_list)
+    ride_indication((lat, lng), result_list)
 
 
 def meituan_post():
@@ -93,21 +97,21 @@ def meituan_post():
     post_resp = requests.post(post_url, data=post_params, headers=post_header, verify=False)
 
     print(post_resp.status_code)
-    print(post_resp.json())
+    # print(post_resp.json())
 
 
-def get_address_and_key():
-    key = input("请输入要搜索的关键字：")
+def get_address():
+
     address = input("请输入要搜索地点：")
-
-    baidu_map_url = "http://api.map.baidu.com/geocoding/v3/?address={}&output=json&ak={}".format(address, ak)
+    baidu_map_url = Config.baidu_map_url_temp.format(address, Config.ak)
     resp = requests.get(baidu_map_url)
     result = resp.json()["result"]
     print(result["location"]["lng"], result["location"]["lat"])
     lng = str(result["location"]["lng"])
     lat = str(result["location"]["lat"])
-    location = (lat, lng)
+    return (lat, lng)
 
-    meituan_get(key, location)
 
-get_address_and_key()
+if __name__ == '__main__':
+    key = input("请输入要搜索的关键字：")
+    meituan_get(key)
