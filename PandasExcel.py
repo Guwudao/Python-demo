@@ -1,5 +1,7 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from datetime import date, timedelta
+
 
 """
 # df = pd.DataFrame({"ID": [1, 2, 3, 4], "Name": ["a", "b", "c", "d"]})
@@ -53,11 +55,31 @@ for i in book.index:
 print(book)
 """
 
-book = pd.read_excel("BookPrice.xlsx", index_col="index")
+def book_operation():
+    book = pd.read_excel("BookPrice.xlsx", index_col="index")
 
-# book["final"] = book["price"] * book["undercut"]
-# book.sort_values(by=["special", "price"], inplace=True, ascending=[False, True])
+    # book["final"] = book["price"] * book["undercut"]
+    # book.sort_values(by=["special", "price"], inplace=True, ascending=[False, True])
 
-book = book.loc[book["price"].apply(lambda x: 30 <= x < 50)].loc[book["undercut"].apply(lambda x: x > 0.6)]
-print(book)
+    book = book.loc[book["price"].apply(lambda x: 30 <= x < 50)].loc[book["undercut"].apply(lambda x: x > 0.6)]
+    print(book)
 
+def student_opera():
+    student = pd.read_excel("Student.xlsx")
+    student.sort_values(by="Number", inplace=True, ascending=False)
+    student.plot.bar(x="Field", y="Number", title="Students sort")
+
+    plt.show()
+
+    print(student)
+
+def student_compare():
+    student = pd.read_excel("Student.xlsx")
+    student.sort_values(by="2016", inplace=True)
+    student.plot.barh(x="Field", y=["2016", "2017"], stacked=True)
+
+    plt.show()
+    print(student)
+
+
+student_compare()

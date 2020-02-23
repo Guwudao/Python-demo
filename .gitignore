@@ -103,3 +103,5 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+Charles Proxy CA.cer
+Charles Proxy CA.pem
