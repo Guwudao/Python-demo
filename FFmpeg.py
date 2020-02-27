@@ -14,7 +14,7 @@ def get_all_videos(file_path):
             get_all_videos(new_path)
 
         elif os.path.isfile(new_path):
-            result = re.match(r".+\.(mp4|mkv)$", new_path)
+            result = re.match(r".+\.(mp4|mkv|avi)$", new_path)
             if result:
                 video_list.append(new_path)
 
@@ -27,7 +27,7 @@ def get_all_videos(file_path):
 def file_processing(file_list):
     print("start----------------")
     code_pre = "ffmpeg -i "
-    code_mid = " -b:v 1500k "
+    code_mid = " -b:v 800k -bufsize 800k "
 
     for file_name in file_list:
         old_name = file_name.split(".")

@@ -1,6 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import date, timedelta
+import numpy as np
+import PyechartsDataAnalysis
 
 
 """
@@ -82,4 +84,59 @@ def student_compare():
     print(student)
 
 
-student_compare()
+def hsbc_file():
+    hsbc = pd.read_excel("HSBC业务线Base版2月25日人员休假-移动.xlsx", sheet_name="明细", usecols="C, E, G:AC")
+    # print(hsbc)
+    # print(hsbc.head(5))
+    # print(hsbc.columns)
+    # print(hsbc.loc[0:2])
+    # print(hsbc.loc[[2, 3, 8]])
+    data_totally_list = np.array(hsbc)
+    print(data_totally_list)
+
+
+    # print(data_totally_list[0])
+    title_list = data_totally_list[0]
+    woring_list, leave_list, other_list = [], [], []
+
+    for i in range(len(data_totally_list[0])):
+        woring_list.append(0)
+        leave_list.append(0)
+        other_list.append(0)
+
+    is_skip_first = True
+    for data_list in data_totally_list:
+
+        if not is_skip_first:
+            for index, data in enumerate(data_list):
+                if data == "在家办公（WFH）" or data == "公司现场":
+                    woring_list[index] += 1
+                elif data == "休假":
+                    leave_list[index] += 1
+                else:
+                    other_list[index] += 1
+        else:
+            is_skip_first = False
+
+    # print(woring_list)
+    # print(leave_list)
+    # print(other_list)
+
+    final_working_list, final_leave_list, final_other_list, final_title_list = [], [], [], []
+
+    for a, b, c, d in zip(woring_list, leave_list, other_list, title_list):
+        if a > 0:
+            final_working_list.append(a)
+            final_leave_list.append(b)
+            final_other_list.append(c)
+            final_title_list.append(d)
+
+    print(final_working_list)
+    print(final_leave_list)
+    print(final_other_list)
+    print(final_title_list)
+
+    PyechartsDataAnalysis.working_analysis(final_title_list, final_working_list, final_leave_list, final_other_list)
+
+
+hsbc_file()
