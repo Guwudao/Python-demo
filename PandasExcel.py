@@ -97,10 +97,10 @@ def hsbc_file():
 
     # print(data_totally_list[0])
     title_list = data_totally_list[0]
-    woring_list, leave_list, other_list = [], [], []
+    working_list, leave_list, other_list = [], [], []
 
     for i in range(len(data_totally_list[0])):
-        woring_list.append(0)
+        working_list.append(0)
         leave_list.append(0)
         other_list.append(0)
 
@@ -110,7 +110,7 @@ def hsbc_file():
         if not is_skip_first:
             for index, data in enumerate(data_list):
                 if data == "在家办公（WFH）" or data == "公司现场":
-                    woring_list[index] += 1
+                    working_list[index] += 1
                 elif data == "休假":
                     leave_list[index] += 1
                 else:
@@ -124,7 +124,7 @@ def hsbc_file():
 
     final_working_list, final_leave_list, final_other_list, final_title_list = [], [], [], []
 
-    for a, b, c, d in zip(woring_list, leave_list, other_list, title_list):
+    for a, b, c, d in zip(working_list, leave_list, other_list, title_list):
         if a > 0:
             final_working_list.append(a)
             final_leave_list.append(b)
