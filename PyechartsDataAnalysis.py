@@ -2,6 +2,51 @@ from pyecharts.charts import Bar, Line
 from pyecharts.options import InitOpts, TitleOpts, ToolboxOpts, LegendOpts, AxisOpts, LabelOpts
 
 
+def work_data_analysis(dtotal_ata_list):
+    # print(data_list[0])
+    title_list = dtotal_ata_list[0]
+    working_list, leave_list, other_list = [], [], []
+
+    for i in range(len(dtotal_ata_list[0])):
+        working_list.append(0)
+        leave_list.append(0)
+        other_list.append(0)
+
+    is_skip_first = True
+    for data_list in dtotal_ata_list:
+
+        if not is_skip_first:
+            for index, data in enumerate(data_list):
+                if data == "在家办公（WFH）" or data == "公司现场":
+                    working_list[index] += 1
+                elif data == "休假":
+                    leave_list[index] += 1
+                else:
+                    other_list[index] += 1
+        else:
+            is_skip_first = False
+
+    # print(woring_list)
+    # print(leave_list)
+    # print(other_list)
+
+    final_working_list, final_leave_list, final_other_list, final_title_list = [], [], [], []
+
+    for a, b, c, d in zip(working_list, leave_list, other_list, title_list):
+        if a > 0:
+            final_working_list.append(a)
+            final_leave_list.append(b)
+            final_other_list.append(c)
+            final_title_list.append(d)
+
+    print(final_working_list)
+    print(final_leave_list)
+    print(final_other_list)
+    print(final_title_list)
+
+    working_analysis(final_title_list, final_working_list, final_leave_list, final_other_list)
+
+
 def working_analysis(title_list, working_list, leave_list, other_list):
     bar = (
                 Bar(
