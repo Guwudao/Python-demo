@@ -100,8 +100,41 @@ def hsbc_leave_file():
 
 def hsbc_working_file():
     hsbc = pd.read_excel("电子签到单-2月3~25日 - 数字移动-移动.xlsx", sheet_name="Sheet1")
-    print(hsbc.head(3))
-    # print(hsbc.loc[hsbc['TL']])
+    # print(hsbc.head(3))
+    # print(np.array(hsbc.loc[2])[-1])
+    # l = np.array(hsbc.loc[2])
+    # print(l[-1])
+
+    # print(hsbc.iloc[:, 9])
+    # print("--" * 20)
+    # print(hsbc.loc[[1, 3, 5]])
+    # print(hsbc["TL"])
+
+    print(type(hsbc))
+    print(type(hsbc.loc[hsbc["TL"] == "林俊杰"]))
+
+    # l = np.array(hsbc.loc[hsbc["TL"] == "林俊杰"])
+    # print(l)
+    # for s in l:
+    #     print(s)
+
+    # ljj = hsbc.loc[hsbc["TL"] == "林俊杰"]
+    # ljj.to_excel("ljj.xlsx")
+
+    total_tl_list = np.array(hsbc["TL"])
+    leader_list = []
+
+    for leader in total_tl_list:
+        if leader not in leader_list:
+            leader_list.append(leader)
+
+    print(leader_list)
+
+    for leader in leader_list:
+        data = hsbc.loc[hsbc["TL"] == leader]
+        data.to_excel("{}.xlsx".format(leader))
+
+
 
 # hsbc_leave_file()
 hsbc_working_file()
