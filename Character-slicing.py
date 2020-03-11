@@ -1,9 +1,9 @@
 
+# print(name[1:5:2])
+# print(name[-1])
 # name = "abcdabcdabcd"
 #
 # print(len(name))
-# print(name[1:5:2])
-# print(name[-1])
 # print(name[::-1])
 # print(name[-4:-1:2])
 # print(name[::2])
@@ -26,6 +26,27 @@
 
 import re
 
+new = """
+1. WeChat 许月英 【11人】
+2. Staff App &VB 苟肖朋 【12】
+3. MobileR & RBBLending 候梦璇 〔10人〕
+4. Saas 谭立志 6人
+5. MobileX & jade 林俊杰 【7人】
+6. GBA QR 朱纯佳 10人
+7. Mobile 1.5 胡超 6人
+8. API 杨佳 【27人】
+9. Mvtm 张璐 5人
+10. Apollo8 陈少轩 【9人】
+11. mobilex 李凯 14人
+12. sMP 田晶/王杨 31人
+13. Staff App & VB 苟肖朋 【12】
+14. CCA 赵得华 10人
+15. GBAOMP 谢研 12人
+16. China Mobile +Mobile Foundation 周亚 【12】
+17. Payment 苏俊 15人
+18. GBA Macau 王腾/林健卜 11人
+19. apollo7 刘昌旭 8人
+"""
 
 today = """
 #接龙
@@ -83,5 +104,26 @@ def unclock_list(today):
     print(result_list)
     return (result_list, sum)
 
-a = unclock_list(today)
-print(a)
+remind_list = unclock_list(today)
+# print(remind_list)
+
+
+new_list =new.split("\n")
+
+name_list = []
+for n in new_list:
+    # print(n)
+    n_list = n.split(" ")
+    name = n_list[-2]
+    name_list.append(name)
+
+    team = n_list[1]
+    print(team)
+
+    if name not in today:
+        print("new leader: ", name)
+
+    if team not in today:
+        print("new team: ",   team)
+
+print(name_list)

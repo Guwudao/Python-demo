@@ -58,13 +58,39 @@ print(book)
 """
 
 def book_operation():
-    book = pd.read_excel("BookPrice.xlsx", index_col="index")
+    book = pd.read_excel("BookPrice.xlsx", index_col="Name")
 
     # book["final"] = book["price"] * book["undercut"]
     # book.sort_values(by=["special", "price"], inplace=True, ascending=[False, True])
 
-    book = book.loc[book["price"].apply(lambda x: 30 <= x < 50)].loc[book["undercut"].apply(lambda x: x > 0.6)]
-    print(book)
+    # new_book = book.loc[book["price"].apply(lambda x: 30 <= x < 50)].loc[book["undercut"].apply(lambda x: x > 0.6)]
+    # print(new_book)
+    #
+    # drop_book = book.drop(book[book.price < 20].index)
+    # print(drop_book)
+
+    # print(book["price3"].sort_values())
+    # book["price3"].sort_values().plot.pie(fontsize=10, startangle=-270)
+    # plt.title("Book Price", fontdict={
+    #     "size": 12,
+    #     "weight": "bold"
+    # })
+    # plt.ylabel("Bookkkk", fontsize=12)
+    # plt.show()
+
+    print(book.index)
+    print(type(book.index))
+    print(type(book["index"]))
+    print(np.array(book["index"]))
+
+
+    print(book.columns)
+    book.plot(y=['price1', 'price2', 'price3'])
+    plt.title("line charts")
+    plt.ylabel("namesss", fontsize=10, fontweight="bold")
+    # plt.xticks(np.array(book["index"]), fontsize=8)
+    plt.show()
+
 
 def student_opera():
     student = pd.read_excel("Student.xlsx")
@@ -72,7 +98,6 @@ def student_opera():
     student.plot.bar(x="Field", y="Number", title="Students sort")
 
     plt.show()
-
     print(student)
 
 def student_compare():
@@ -135,6 +160,6 @@ def hsbc_working_file():
         data.to_excel("{}.xlsx".format(leader))
 
 
-
 # hsbc_leave_file()
-hsbc_working_file()
+# hsbc_working_file()
+book_operation()
