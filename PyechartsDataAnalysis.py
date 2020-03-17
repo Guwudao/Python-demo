@@ -1,19 +1,21 @@
 from pyecharts.charts import Bar, Line
 from pyecharts.options import InitOpts, TitleOpts, ToolboxOpts, LegendOpts, AxisOpts, LabelOpts
 
+import matplotlib.pyplot as plt
 
-def work_data_analysis(dtotal_ata_list):
+
+def work_data_analysis(dtotal_data_list):
     # print(data_list[0])
-    title_list = dtotal_ata_list[0]
+    title_list = dtotal_data_list[0]
     working_list, leave_list, other_list = [], [], []
 
-    for i in range(len(dtotal_ata_list[0])):
+    for i in range(len(dtotal_data_list[0])):
         working_list.append(0)
         leave_list.append(0)
         other_list.append(0)
 
     is_skip_first = True
-    for data_list in dtotal_ata_list:
+    for data_list in dtotal_data_list:
 
         if not is_skip_first:
             for index, data in enumerate(data_list):
@@ -43,6 +45,20 @@ def work_data_analysis(dtotal_ata_list):
     print(final_leave_list)
     print(final_other_list)
     print(final_title_list)
+
+    # fig, ax = plt.subplots()
+    #
+    # men_means = [20, 35, 30, 35, 27, 20, 35, 30, 35, 27, 20, 35, 30, 35, 27, 20, 35]
+    # women_means = [25, 32, 34, 20, 25, 25, 32, 34, 20, 25, 25, 32, 34, 20, 25, 25, 32]
+    # ax.bar(final_title_list, men_means, final_working_list, label="Working")
+    # ax.bar(final_title_list, women_means, final_leave_list, label="Leave")
+    # ax.bar(final_title_list, women_means, final_other_list, label="Other")
+    #
+    # ax.set_ylabel("Count")
+    # ax.set_title("Statistical")
+    #
+    # ax.legend()
+    # plt.show()
 
     working_analysis(final_title_list, final_working_list, final_leave_list, final_other_list)
 

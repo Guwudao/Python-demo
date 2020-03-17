@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from datetime import date, timedelta
 import numpy as np
 import PyechartsDataAnalysis
-
+import os
 
 """
 # df = pd.DataFrame({"ID": [1, 2, 3, 4], "Name": ["a", "b", "c", "d"]})
@@ -36,7 +36,7 @@ def month_calculate(y, m, d):
     y = y + m // 12
     m = m % 12
     if m == 0:
-        m = 12
+       m = 12
     return date(y, m, d)
 
 
@@ -57,8 +57,11 @@ for i in book.index:
 print(book)
 """
 
+os.chdir("Excel")
+print(os.getcwd())
+
 def book_operation():
-    book = pd.read_excel("BookPrice.xlsx", index_col="Name")
+    book = pd.read_excel("BookPrice.xlsx", index_col="index")
 
     # book["final"] = book["price"] * book["undercut"]
     # book.sort_values(by=["special", "price"], inplace=True, ascending=[False, True])
@@ -79,16 +82,25 @@ def book_operation():
     # plt.show()
 
     print(book.index)
-    print(type(book.index))
-    print(type(book["index"]))
-    print(np.array(book["index"]))
+    # print(book["price1"])
+    # print(type(book.index))
+    # print(type(book["index"]))
+    # print(np.array(book["index"]))
 
 
-    print(book.columns)
-    book.plot(y=['price1', 'price2', 'price3'])
-    plt.title("line charts")
-    plt.ylabel("namesss", fontsize=10, fontweight="bold")
-    # plt.xticks(np.array(book["index"]), fontsize=8)
+    # print(book.columns)
+    book.plot(y=["price1", "price2", "price3"])
+    plt.xticks(book.index, fontsize=8)
+    book.plot.area(y=["price1", "price2", "price3"])
+    plt.xticks(book.index, fontsize=9)
+    book.plot.bar(y=["price1", "price2", "price3"], stacked=True)
+    plt.xticks(book.index, fontsize=10, rotation=360)
+
+    book.plot.scatter(x="price1", y="undercut")
+
+    # plt.title("line charts")
+    # plt.ylabel("namesss", fontsize=10, fontweight="bold")
+
     plt.show()
 
 
@@ -159,7 +171,19 @@ def hsbc_working_file():
         data = hsbc.loc[hsbc["TL"] == leader]
         data.to_excel("{}.xlsx".format(leader))
 
+def pbb_work():
+    # pbb = pd.read_excel("现场保障表—移动全员.xlsx")
+
+    pbb = pd.read_excel("HSBC业务线返工明细信息统计（汇总）.xlsx", sheet_name="明细")
+    print(pbb.columns)
+    # my = pbb.loc[pbb["保长"] == "林俊杰"]
+    # my.to_excel("demo.xlsx")
+    new = pbb.sort_values(by="保长")
+    new.to_excel("new_pbb.xlsx")
+
+
 
 # hsbc_leave_file()
 # hsbc_working_file()
 book_operation()
+# pbb_work()
