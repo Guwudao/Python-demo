@@ -57,8 +57,8 @@ for i in book.index:
 print(book)
 """
 
-os.chdir("Excel")
-print(os.getcwd())
+# os.chdir("Excel")
+# print(os.getcwd())
 
 def book_operation():
     book = pd.read_excel("BookPrice.xlsx", index_col="index")
@@ -81,7 +81,7 @@ def book_operation():
     # plt.ylabel("Bookkkk", fontsize=12)
     # plt.show()
 
-    print(book.index)
+    # print(book.index)
     # print(book["price1"])
     # print(type(book.index))
     # print(type(book["index"]))
@@ -89,19 +89,23 @@ def book_operation():
 
 
     # print(book.columns)
-    book.plot(y=["price1", "price2", "price3"])
-    plt.xticks(book.index, fontsize=8)
-    book.plot.area(y=["price1", "price2", "price3"])
-    plt.xticks(book.index, fontsize=9)
-    book.plot.bar(y=["price1", "price2", "price3"], stacked=True)
-    plt.xticks(book.index, fontsize=10, rotation=360)
+    # book.plot(y=["price1", "price2", "price3"])
+    # plt.xticks(book.index, fontsize=8)
+    # book.plot.area(y=["price1", "price2", "price3"])
+    # plt.xticks(book.index, fontsize=9)
+    # book.plot.bar(y=["price1", "price2", "price3"], stacked=True)
+    # plt.xticks(book.index, fontsize=10, rotation=360)
 
-    book.plot.scatter(x="price1", y="undercut")
+    # book.plot.scatter(x="price1", y="undercut")
+    # book.price1.plot.hist(bins=100)
+    # plt.xticks(range(0, max(book.price1), 5), fontsize=8)
+
+    # print(book.corr())
 
     # plt.title("line charts")
     # plt.ylabel("namesss", fontsize=10, fontweight="bold")
 
-    plt.show()
+    # plt.show()
 
 
 def student_opera():
@@ -111,6 +115,7 @@ def student_opera():
 
     plt.show()
     print(student)
+
 
 def student_compare():
     student = pd.read_excel("Student.xlsx")
@@ -174,7 +179,7 @@ def hsbc_working_file():
 def pbb_work():
     # pbb = pd.read_excel("现场保障表—移动全员.xlsx")
 
-    pbb = pd.read_excel("HSBC业务线返工明细信息统计（汇总）.xlsx", sheet_name="明细")
+    pbb = pd.read_excel("./Excel/HSBC业务线返工明细信息统计（汇总）.xlsx", sheet_name="明细")
     print(pbb.columns)
     # my = pbb.loc[pbb["保长"] == "林俊杰"]
     # my.to_excel("demo.xlsx")
@@ -182,8 +187,62 @@ def pbb_work():
     new.to_excel("new_pbb.xlsx")
 
 
+def data_combine():
+    pd.set_option('display.max_columns', None)
+    price = pd.read_excel("./Excel/BookPrice.xlsx", sheet_name="price")
+    content = pd.read_excel("./Excel/BookPrice.xlsx", sheet_name="content")
+
+    # print(price)
+    # print(content)
+    p = price.loc[:, ~price.columns.str.contains("^Unnamed")]
+    print(p.merge(content, how="left", on="Name").fillna(0))
+    # .to_excel("content.xlsx")
+
+def price_validate(row):
+    try:
+        assert row.price1<=40
+    except:
+        print(f'#{row.Name}\t has not a validate price {row.price1}')
+
+
+def book_data_validate():
+    book = pd.read_excel("./Excel/BookPrice.xlsx", index_col="index", sheet_name="price")
+    print(book)
+
+    # book.apply(price_validate, axis=1)
+
+    temp = book[["price1", "price2", "price3"]]
+    # print(temp)
+
+    book["total"] = temp.sum(axis=1)
+    book["average"] = temp.mean(axis=1)
+
+    col_mean = book[["price1", "price2", "price3", "total", "average"]].mean()
+    book = book.append(col_mean, ignore_index=True)
+    print(book)
+
+
+def drop_duplicated():
+    book = pd.read_excel("./Excel/BookPrice.xlsx", sheet_name="price")
+    # print(book)
+
+    dupe = book.duplicated(subset=["Name"])
+    dupe = dupe[dupe == True]
+    print(dupe.index)
+
+    print(book.iloc[dupe.index])
+
+
+def pivot_table():
+    pt = pd.read_excel("./Excel/class/第3节.xlsx", sheet_name="数据源")
+    print(pt)
+
 
 # hsbc_leave_file()
 # hsbc_working_file()
-book_operation()
+# book_operation()
 # pbb_work()
+# data_combine()
+# book_data_validate()
+# drop_duplicated()
+pivot_table()

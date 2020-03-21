@@ -107,23 +107,3 @@ def unclock_list(today):
 remind_list = unclock_list(today)
 # print(remind_list)
 
-
-new_list =new.split("\n")
-
-name_list = []
-for n in new_list:
-    # print(n)
-    n_list = n.split(" ")
-    name = n_list[-2]
-    name_list.append(name)
-
-    team = n_list[1]
-    print(team)
-
-    if name not in today:
-        print("new leader: ", name)
-
-    if team not in today:
-        print("new team: ",   team)
-
-print(name_list)
