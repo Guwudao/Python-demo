@@ -15,6 +15,8 @@ from matplotlib.font_manager import _rebuild
 # for i in a:
 #     print(i)
 
+plt.rcParams["font.sans-serif"] = ["FangSong_GB2312"]
+
 """
 # df = pd.DataFrame({"ID": [1, 2, 3, 4], "Name": ["a", "b", "c", "d"]})
 # df.set_index("Name")
@@ -248,31 +250,40 @@ def pivot_table():
     pd.options.display.max_columns = 999
     pt = pd.read_excel("./Excel/class/第3节.xlsx", sheet_name="数据源")
     # print(pt)
-    # print(type(pt["订购日期"]))
+    print(pt.head())
 
     pt1 = pt.pivot_table(index="产品类别", columns="销售人员", values=["金额", "数量"], aggfunc=np.sum)
-    # print(pt1)
+    # print(pt1.head())
+    print(pt1.index)
     # pt1.to_excel("./Excel/pt1.xlsx")
 
-    groups = pt.groupby(["销售人员", "销售部门", "产品类别"])
+    p2_groups = pt.groupby(["销售人员", "产品类别"])
     # print(groups)
 
-    s = groups["金额"].sum()
-    c = groups["数量"].count()
+    p2_s = p2_groups["金额"].sum()
+    p2_c = p2_groups["数量"].count()
 
-    pt2 = pd.DataFrame({"sum":s, "count":c})
-    # print(pt2.head())
-    # pt2.to_excel("./Excel/pt2.xlsx")
-    print(groups["产品类别"])
+    pt2 = pd.DataFrame({"sum":p2_s, "count":p2_c})
+    print(pt2)
+    # print(pt2.index)
+    pt2.to_excel("./Excel/pt2.xlsx")
+    # print(groups["产品类别"])
 
     # pt2.plot.area(y=["sum", "count"])
-    # plt.xticks(pt2["产品类别"])
 
     # pt2["count"].hist(bins=100)
-    pt.plot.scatter(x="数量", y="金额")
-    # 显示中文标签
-    plt.rcParams["font.sans-serif"] = ["FangSong_GB2312"]
+    # pt.plot.scatter(x="数量", y="金额")
+
     plt.show()
+
+    p3_groups = pt.groupby(["销售部门", "销售人员"])
+    p3_sum = p3_groups["金额"].sum()
+    p3_count = p3_groups["数量"].count()
+
+    p3 = pd.DataFrame({"Sum": p3_sum, "Count": p3_count})
+    print(p3)
+    pt2.to_excel("./Excel/pt3.xlsx")
+
 
 # hsbc_leave_file()
 # hsbc_working_file()
@@ -280,5 +291,5 @@ def pivot_table():
 # pbb_work()
 # data_combine()
 # book_data_validate()
-# drop_duplicated()
-pivot_table()
+drop_duplicated()
+# pivot_table()
