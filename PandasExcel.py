@@ -5,6 +5,16 @@ import numpy as np
 import PyechartsDataAnalysis
 import os
 
+# import matplotlib.font_manager
+from matplotlib.font_manager import _rebuild
+
+# _rebuild()
+
+# a = sorted([f.name for f in matplotlib.font_manager.fontManager.ttflist])
+#
+# for i in a:
+#     print(i)
+
 """
 # df = pd.DataFrame({"ID": [1, 2, 3, 4], "Name": ["a", "b", "c", "d"]})
 # df.set_index("Name")
@@ -61,7 +71,7 @@ print(book)
 # print(os.getcwd())
 
 def book_operation():
-    book = pd.read_excel("BookPrice.xlsx", index_col="index")
+    book = pd.read_excel("./Excel/BookPrice.xlsx", index_col="index")
 
     # book["final"] = book["price"] * book["undercut"]
     # book.sort_values(by=["special", "price"], inplace=True, ascending=[False, True])
@@ -89,12 +99,12 @@ def book_operation():
 
 
     # print(book.columns)
-    # book.plot(y=["price1", "price2", "price3"])
-    # plt.xticks(book.index, fontsize=8)
-    # book.plot.area(y=["price1", "price2", "price3"])
-    # plt.xticks(book.index, fontsize=9)
-    # book.plot.bar(y=["price1", "price2", "price3"], stacked=True)
-    # plt.xticks(book.index, fontsize=10, rotation=360)
+    book.plot(y=["price1", "price2", "price3"])
+    plt.xticks(book.index, fontsize=8)
+    book.plot.area(y=["price1", "price2", "price3"])
+    plt.xticks(book.index, fontsize=9)
+    book.plot.bar(y=["price1", "price2", "price3"], stacked=True)
+    plt.xticks(book.index, fontsize=10, rotation=360)
 
     # book.plot.scatter(x="price1", y="undercut")
     # book.price1.plot.hist(bins=100)
@@ -105,7 +115,7 @@ def book_operation():
     # plt.title("line charts")
     # plt.ylabel("namesss", fontsize=10, fontweight="bold")
 
-    # plt.show()
+    plt.show()
 
 
 def student_opera():
@@ -127,7 +137,7 @@ def student_compare():
 
 
 def hsbc_leave_file():
-    hsbc = pd.read_excel("HSBC业务线Base版2月25日人员休假-移动.xlsx", sheet_name="明细", usecols="C, E, G:AC")
+    hsbc = pd.read_excel("./Excel/HSBC业务线Base版2月25日人员休假-移动.xlsx", sheet_name="明细", usecols="C, E, G:AC")
     # print(hsbc)
     # print(hsbc.head(5))
     # print(hsbc.columns)
@@ -141,7 +151,7 @@ def hsbc_leave_file():
 
 
 def hsbc_working_file():
-    hsbc = pd.read_excel("电子签到单-2月3~25日 - 数字移动-移动.xlsx", sheet_name="Sheet1")
+    hsbc = pd.read_excel("./Excel/电子签到单-2月3~25日 - 数字移动-移动.xlsx", sheet_name="Sheet1")
     # print(hsbc.head(3))
     # print(np.array(hsbc.loc[2])[-1])
     # l = np.array(hsbc.loc[2])
@@ -234,9 +244,35 @@ def drop_duplicated():
 
 
 def pivot_table():
-    pt = pd.read_excel("./Excel/class/第3节.xlsx", sheet_name="数据源")
-    print(pt)
 
+    pd.options.display.max_columns = 999
+    pt = pd.read_excel("./Excel/class/第3节.xlsx", sheet_name="数据源")
+    # print(pt)
+    # print(type(pt["订购日期"]))
+
+    pt1 = pt.pivot_table(index="产品类别", columns="销售人员", values=["金额", "数量"], aggfunc=np.sum)
+    # print(pt1)
+    # pt1.to_excel("./Excel/pt1.xlsx")
+
+    groups = pt.groupby(["销售人员", "销售部门", "产品类别"])
+    # print(groups)
+
+    s = groups["金额"].sum()
+    c = groups["数量"].count()
+
+    pt2 = pd.DataFrame({"sum":s, "count":c})
+    # print(pt2.head())
+    # pt2.to_excel("./Excel/pt2.xlsx")
+    print(groups["产品类别"])
+
+    # pt2.plot.area(y=["sum", "count"])
+    # plt.xticks(pt2["产品类别"])
+
+    # pt2["count"].hist(bins=100)
+    pt.plot.scatter(x="数量", y="金额")
+    # 显示中文标签
+    plt.rcParams["font.sans-serif"] = ["FangSong_GB2312"]
+    plt.show()
 
 # hsbc_leave_file()
 # hsbc_working_file()
