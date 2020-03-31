@@ -28,19 +28,28 @@ def file_rename(old_name, new_name, index=0):
             os.rename(old_name, new_name)
 
 
+def file_fliter(path, file_name):
+    suffix = file_name.split(".")[-1]
+    full_path = path+ "/" + file_name
+
+    if suffix == "xltd":
+        os.remove(full_path)
+
+
 def file_traverse(file_name, index=0):
     index += 1
 
     if os.path.isdir(file_name):
         for sub_file in os.listdir(file_name):
 
-            print(index * "-" + sub_file)
+            # print(index * "-" + sub_file)
             # num = filter(str.isdigit(), sub_file)
             # print(num)
 
             # 重命名
             # index += 1
             # file_rename(sub_file, "龙珠", index)
+            # file_fliter(file_name, sub_file)
 
             sub_path = file_name + "/" + sub_file
             file_traverse(sub_path, index)

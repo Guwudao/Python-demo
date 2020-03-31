@@ -4,6 +4,7 @@ from datetime import date, timedelta
 import numpy as np
 import PyechartsDataAnalysis
 import os
+from scipy.stats import linregress
 
 # import matplotlib.font_manager
 from matplotlib.font_manager import _rebuild
@@ -121,7 +122,7 @@ def book_operation():
 
 
 def student_opera():
-    student = pd.read_excel("Student.xlsx")
+    student = pd.read_excel("./Excel/Student.xlsx")
     student.sort_values(by="Number", inplace=True, ascending=False)
     student.plot.bar(x="Field", y="Number", title="Students sort")
 
@@ -130,9 +131,9 @@ def student_opera():
 
 
 def student_compare():
-    student = pd.read_excel("Student.xlsx")
+    student = pd.read_excel("./Excel/Student.xlsx")
     student.sort_values(by="2016", inplace=True)
-    student.plot.barh(x="Field", y=["2016", "2017"], stacked=True)
+    student.plot.bar(x="Field", y=["2016", "2017"], stacked=True)
 
     plt.show()
     print(student)
@@ -236,13 +237,26 @@ def book_data_validate():
 
 def drop_duplicated():
     book = pd.read_excel("./Excel/BookPrice.xlsx", sheet_name="price")
-    # print(book)
+    print(book[:,["B", "C"]])
 
     dupe = book.duplicated(subset=["Name"])
     dupe = dupe[dupe == True]
     print(dupe.index)
-
     print(book.iloc[dupe.index])
+
+    slope, intercept, r, prob, std_err = linregress(book.index, book.price1)
+    exp = book.index * slope + intercept
+    plt.scatter(book.index, book.price1)
+    plt.plot(book.index, exp, color="green")
+    plt.xticks(book.index)
+    print(slope, intercept, r, prob, std_err)
+
+    # book.plot.bar(y=["price1", "price2"])
+    # plt.bar(book.index, book.price1)
+    # plt.xticks(book.index)
+    # plt.tight_layout()
+
+    # plt.show()
 
 
 def pivot_table():
@@ -269,12 +283,9 @@ def pivot_table():
     pt2.to_excel("./Excel/pt2.xlsx")
     # print(groups["产品类别"])
 
-    # pt2.plot.area(y=["sum", "count"])
-
     # pt2["count"].hist(bins=100)
     # pt.plot.scatter(x="数量", y="金额")
-
-    plt.show()
+    # plt.show()
 
     p3_groups = pt.groupby(["销售部门", "销售人员"])
     p3_sum = p3_groups["金额"].sum()
@@ -285,11 +296,24 @@ def pivot_table():
     pt2.to_excel("./Excel/pt3.xlsx")
 
 
+def work_performance():
+    work = pd.read_excel("./Excel/MNC业务群2020年Q1绩效考核表-数字移动 - 移动业务交付部 - v.10.xlsx", skiprows=4)
+    print(type(work))
+    print(work.columns)
+    work = work.loc[work["直接主管*"] == "林俊杰"]
+    print(work)
+    work.to_excel("绩效.xlsx")
+    # print(work.loc[:,["C"]])
+
+
+
 # hsbc_leave_file()
 # hsbc_working_file()
 # book_operation()
+# student_compare()
 # pbb_work()
 # data_combine()
 # book_data_validate()
-drop_duplicated()
+# drop_duplicated()
 # pivot_table()
+work_performance()

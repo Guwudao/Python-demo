@@ -1,5 +1,5 @@
 import json
-
+from jsonpath import jsonpath
 
 class Phone():
     def __init__(self, name, price):
@@ -30,4 +30,33 @@ def parse(obj):
     return [obj.name, obj.price]
 
 # print(json.dumps(test_json, ensure_ascii=False, indent=4, allow_nan=False, cls=Phone_parse))
-print(json.dumps(test_json, default=parse, indent=4))
+# print(json.dumps(test_json, default=parse, indent=4))
+
+
+dic = {
+        "person": {
+            "name": "Jackie",
+            "age": 18,
+            "height": 180,
+            "dog": [
+                {
+                    "name": "heihei",
+                    "age": 10,
+                    "eat": "meat",
+                    "isVIP": True
+                },
+                {
+                    "name": "maomao",
+                    "age": 5,
+                    "eat": "milk"
+                }
+            ]
+        }
+    }
+
+
+# result = jsonpath(dic, "$.person.dog[0].eat")
+# result = jsonpath(dic, "$..dog[?(@.isVIP)]")
+# result = jsonpath(dic, "$..dog[?(@.age > 5)]")
+result = jsonpath(dic, "$..dog[*].eat")
+print(result)

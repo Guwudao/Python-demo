@@ -26,62 +26,68 @@
 
 import re
 
-new = """
-1. WeChat 许月英 【11人】
-2. Staff App &VB 苟肖朋 【12】
-3. MobileR & RBBLending 候梦璇 〔10人〕
-4. Saas 谭立志 6人
-5. MobileX & jade 林俊杰 【7人】
-6. GBA QR 朱纯佳 10人
-7. Mobile 1.5 胡超 6人
-8. API 杨佳 【27人】
-9. Mvtm 张璐 5人
-10. Apollo8 陈少轩 【9人】
-11. mobilex 李凯 14人
-12. sMP 田晶/王杨 31人
-13. Staff App & VB 苟肖朋 【12】
-14. CCA 赵得华 10人
-15. GBAOMP 谢研 12人
-16. China Mobile +Mobile Foundation 周亚 【12】
-17. Payment 苏俊 15人
-18. GBA Macau 王腾/林健卜 11人
-19. apollo7 刘昌旭 8人
-"""
+new = """1. WeChat 许月英 【11人】
+2. Staff App & VB 苟肖朋 【13】
+3. GBA Macau 王腾/林健卜 11人
+4. GBA QR 朱纯佳 10人
+5. Payment 王勇 14人
+6. Mvtm 张璐 4人
+7. Apollo8 陈少轩 10人
+8. apollo7 刘昌旭 9人
+9. SaaS 赖淑茹 6人
+10. MobileR & RBBLending 候梦璇 〔10人〕
+11. mobilex 李凯 14
+12. MobileX & jade 林俊杰 【7人】
+13. GBAOMP 谢研 11人
+14. SMP 田晶/王杨 32人
+15. Mobile 1.5 胡超 6人
+16. API 杨佳 【27人】
+17. China Mobile +Mobile Foudation 周亚 【12】
+18. CCA 赵得华 10人"""
 
 today = """
-#接龙
 
-02.21健康打卡情况
-例 团队 TL 人数
-
-1. MobileX & Jade 林俊杰【7人】
-2. apollo7 刘昌旭 8人
-3. WeChat  许月英【11人】
-4. mvtm 张璐 【5人】
-5. Payment 王勇【15人】
-6. GBA Macau 王腾/林健卜 【11人】
-7. Mobile 1.5 胡超 【6人】
-8. Mobilex 李凯【14】
-9. MobileR & RBBLending 候梦璇〔9人〕
-10. China Mobile +Mobile Foundation 周亚  【12】
-11. API 杨佳 【26】
-12. 田晶/王杨 [28]
-13. Apollo 8 陈少轩 【9人】
-14. Saas 谭立志【6人】
-15. GBA QR 朱纯佳【10人】
-16. cca 赵得华 10人
-17. Staff App&VB 苟肖朋 【12】
-18. GBA OMP 谢研 12人"""
+1. WeChat 许月英 【11人】
+2. Payment 苏俊 14人
+3. MobileX & jade 林俊杰 【7人】
+4. Apollo8 陈少轩 10人
+5. Mvtm 张璐 4人
+6. MobileR & RBBLending 候梦璇 〔10人〕
+7. API 杨佳 【27人】
+8. apollo7 刘昌旭 9人
+9. GBA QR 朱纯佳 10人
+10. mobilex 李凯 14
+11. SMP 田晶/王杨 32人
+12. China Mobile +Mobile Foudation 周亚 【12】
+13. Staff App & VB 苟肖朋 【13】
+14. CCA 赵得华 10人
+15. Mobile 1.5 胡超 6人
+16. GBA Macau 王腾/林健卜 11人
+17. SaaS 赖淑茹 6人
+18. GBAOMP 谢研 11人
+"""
 
 
-leader_list = ['许月英', '苟肖朋', '王勇', '周亚', '朱纯佳', '张璐', '胡超', '谭立志', '林俊杰', '李凯', '陈少轩', '杨佳', '田晶/王杨', '刘昌旭', '赵得华', '谢研', '候梦璇', '王腾/林健卜']
+leader_list = ['许月英', '苟肖朋', '苏俊', '周亚', '朱纯佳', '张璐', '胡超', '赖淑茹', '林俊杰', '李凯', '陈少轩', '杨佳', '田晶/王杨', '刘昌旭', '赵得华', '谢研', '候梦璇', '王腾/林健卜']
 
-team_list = ['WeChat', 'Staff', 'Payment', 'China', 'GBA', 'MVTM', 'Mobile', 'Saas', 'MobileX', 'Mobilex', 'Apollo', 'API', 'SMP', 'louis', 'cca', 'GBA', 'MobileR', 'GBA']
+team_list = ['WeChat', 'Staff', 'Payment', 'China', 'GBA', 'MVTM', 'Mobile', 'SaaS', 'MobileX', 'Mobilex', 'Apollo', 'API', 'SMP', 'louis', 'cca', 'GBA', 'MobileR', 'GBA']
+
+l_list = []
+def get_leader_list(content) -> []:
+    all_team = content.split("\n")
+    # print(all_team)
+    for team in all_team:
+        team_detail = team.split(" ")
+        print(team_detail)
+        l_list.append(team_detail[-2])
+
+    print(l_list)
+    return l_list
+
 
 def unclock_list(today):
     result_list = []
     for team, leader in zip(team_list, leader_list):
-        # for today in today_list:
         if leader not in today:
             unclock = "未打卡：" + team + " " + leader
             result_list.append(unclock)
@@ -93,8 +99,10 @@ def unclock_list(today):
     sum = 0
 
     for t in today_list:
-        team_separate = t.split(".")[1]
-        num = re.findall(r"\d+\.?\d*", team_separate)
+        t_list = t.split(".")
+        if len(t_list) > 1:
+            team_separate = t_list[1]
+            num = re.findall(r"\d+\.?\d*", team_separate)
 
         if len(num) > 1:
             sum += int(num[1])
@@ -107,3 +115,4 @@ def unclock_list(today):
 remind_list = unclock_list(today)
 # print(remind_list)
 
+# get_leader_list(new)
