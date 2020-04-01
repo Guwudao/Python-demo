@@ -46,29 +46,30 @@ new = """1. WeChat 许月英 【11人】
 18. CCA 赵得华 10人"""
 
 today = """
+#接龙
+0401健康打卡
 
-1. WeChat 许月英 【11人】
-2. Payment 苏俊 14人
-3. MobileX & jade 林俊杰 【7人】
+1. WeChat 许月英【11人】
+2. Mvtm 张璐 4人
+3. Staff App & VB 苟肖朋 【13】
 4. Apollo8 陈少轩 10人
-5. Mvtm 张璐 4人
-6. MobileR & RBBLending 候梦璇 〔10人〕
-7. API 杨佳 【27人】
-8. apollo7 刘昌旭 9人
-9. GBA QR 朱纯佳 10人
-10. mobilex 李凯 14
-11. SMP 田晶/王杨 32人
-12. China Mobile +Mobile Foudation 周亚 【12】
-13. Staff App & VB 苟肖朋 【13】
-14. CCA 赵得华 10人
-15. Mobile 1.5 胡超 6人
-16. GBA Macau 王腾/林健卜 11人
-17. SaaS 赖淑茹 6人
-18. GBAOMP 谢研 11人
+5. MobileX & jade 林俊杰 【7人】
+6. GBA QR 朱纯佳 10人
+7. Payment 王勇 14人
+8. Mobile 1.5 胡超 6人
+9. CCA 赵得华 10人
+10. MobileR & RBBLending 候梦璇 〔10人〕
+11. apollo7 刘昌旭 9人
+12. SaaS 赖淑茹 6人
+13. API 杨佳 【27人】
+14. China Mobile +Mobile Foudation 周亚 【12】
+15. GBAOMP 谢研 11人
+16. mobilex 李凯 14
+17. SMP 田晶/王杨 32人
 """
 
 
-leader_list = ['许月英', '苟肖朋', '苏俊', '周亚', '朱纯佳', '张璐', '胡超', '赖淑茹', '林俊杰', '李凯', '陈少轩', '杨佳', '田晶/王杨', '刘昌旭', '赵得华', '谢研', '候梦璇', '王腾/林健卜']
+leader_list = ['许月英', '苟肖朋', '王勇', '周亚', '朱纯佳', '张璐', '胡超', '赖淑茹', '林俊杰', '李凯', '陈少轩', '杨佳', '田晶/王杨', '刘昌旭', '赵得华', '谢研', '候梦璇', '王腾/林健卜']
 
 team_list = ['WeChat', 'Staff', 'Payment', 'China', 'GBA', 'MVTM', 'Mobile', 'SaaS', 'MobileX', 'Mobilex', 'Apollo', 'API', 'SMP', 'louis', 'cca', 'GBA', 'MobileR', 'GBA']
 
