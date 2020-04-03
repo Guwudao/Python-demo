@@ -70,8 +70,25 @@ from  sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
 def wine_analysic():
     wine_sets = load_wine()
-    print(wine_sets["data"].shape)
-    print(wine_sets["DESCR"])
+    # print(wine_sets["data"].shape)
+    # print(wine_sets["DESCR"])
+
+    X_train, X_test, y_train, y_test = train_test_split(wine_sets["data"], wine_sets["target"], random_state=0)
+    # print(X_train.shape)
+    # print(X_test.shape)
+    # print(y_train.shape)
+    # print(y_test.shape)
+
+    knn = KNeighborsClassifier(n_neighbors=1)
+    knn.fit(X_train, y_train)
+    # print(knn)
+    # print(knn.score(X_test, y_test))
+
+    X_new = np.array([[13.2, 2.77, 2.51, 18.5, 96.6, 1.04, 2.55, 0.57, 1.47, 6.2, 1.05, 3.33, 820]])
+    prediction = knn.predict(X_new)
+    print(prediction)
+    print(" 新红酒分类：{}".format(wine_sets["target_names"][prediction]))
+
 
 
 def demo():

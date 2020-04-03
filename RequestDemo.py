@@ -1,5 +1,6 @@
 import requests
-
+import json
+import ssl
 
 def study163():
     study_url = "https://study.163.com/mob/search/independent/v1"
@@ -35,7 +36,6 @@ def juhe_news():
     for data in data_list:
         print(data)
 
-# juhe_news()
 
 def juhe_cp():
     name = input("请输入菜名: ")
@@ -49,4 +49,22 @@ def juhe_cp():
     print(resp.status_code)
     print(resp.json())
 
-juhe_cp()
+
+def douban_movie():
+    url = "https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&page_limit=50&page_start=0"
+
+    headers = {
+        "Host": "movie.douban.com",
+        "User - Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.5 Safari/605.1.15",
+    }
+    resp = requests.get(url, headers=headers, verify=False)
+
+    print(resp.status_code)
+    print(resp.text)
+    # print(json.loads(resp.text, encoding="utf-8"))
+    print("----")
+
+
+douban_movie()
+# juhe_news()
+# juhe_cp()
