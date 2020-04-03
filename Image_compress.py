@@ -40,6 +40,6 @@ def file_traversal(dir_path, index=0):
         dir_name = dir_path.split("/")[-2]
         # print(file_name)
         # print(dir_name)
-        # file_rename(dir_path, dir_name)
+        file_rename(dir_path, dir_name)
 
 file_traversal(dir_path)
