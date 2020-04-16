@@ -9,6 +9,20 @@ if not os.path.exists(dir_path):
     exit()
 
 
+def file_move(old_path):
+    dir_name = old_path.split("/")[-2]
+    print(dir_name)
+    default_prefix = "/Users/jackie/Downloads/Compress/"
+
+    if not os.path.exists(default_prefix + dir_name):
+        os.makedirs(default_prefix + dir_name)
+
+
+def get_file_size(file):
+    size = os.path.getsize(file)
+    return  size // 1024 #kb
+
+
 def file_rename(old_name, prefix):
     try:
         if os.path.exists(old_name):
@@ -36,10 +50,13 @@ def file_traversal(dir_path, index=0):
             new_dir = dir_path + "/" + file
             file_traversal(new_dir, index=index)
     else:
-        # print(dir_path)
+        print(dir_path)
         dir_name = dir_path.split("/")[-2]
         # print(file_name)
         # print(dir_name)
-        file_rename(dir_path, dir_name)
+        # file_rename(dir_path, dir_name)
+        # size = get_file_size(dir_path)
+        # print(str(size) + "kb")
+        file_move(dir_path)
 
 file_traversal(dir_path)
