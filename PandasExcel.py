@@ -1,13 +1,11 @@
-import pandas as pd
 import matplotlib.pyplot as plt
-from datetime import date, timedelta
 import numpy as np
-import PyechartsDataAnalysis
-import os
+import pandas as pd
 from scipy.stats import linregress
 
+import PyechartsDataAnalysis
+
 # import matplotlib.font_manager
-from matplotlib.font_manager import _rebuild
 
 # _rebuild()
 
@@ -306,6 +304,18 @@ def work_performance():
     # print(work.loc[:,["C"]])
 
 
+def working_time():
+    work = pd.read_excel("./Excel/HSBC业务线加班资源池-2020.xls", sheet_name="OT资源池", skiprows=2)
+    # work = work.loc[(work["RM"] == "黄英") & (work["交付部"] == "移动业务交付部")]
+    # work = work.loc[work["姓名"] == "张广洋"]
+    # print(work)
+    work.to_excel("./Excel/OT.xlsx")
+
+    # ot = pd.read_excel("./Excel/OT.xlsx")
+    # ot = ot.loc[ot["姓名"] == "张广洋"]
+    # print(ot)
+    # ot.to_excel("./Excel/our_ot.xlsx")
+
 
 # hsbc_leave_file()
 # hsbc_working_file()
@@ -316,4 +326,5 @@ def work_performance():
 # book_data_validate()
 # drop_duplicated()
 # pivot_table()
-work_performance()
+# work_performance()
+working_time()
