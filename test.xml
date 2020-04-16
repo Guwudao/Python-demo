@@ -1,0 +1,22 @@
+<note date="08/08/2008">
+    <student>
+        <name>AAAA</name>
+        <age>18</age>
+        <height>180</height>
+        <weight>150</weight>
+    </student>
+
+    <student>
+        <name>BBBB</name>
+        <age>19</age>
+        <height>170</height>
+        <weight>140</weight>
+    </student>
+
+    <student>
+        <name>CCCC</name>
+        <age>20</age>
+        <height>160</height>
+        <weight>130</weight>
+    </student>
+</note>
