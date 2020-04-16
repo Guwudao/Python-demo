@@ -58,5 +58,33 @@ dic = {
 # result = jsonpath(dic, "$.person.dog[0].eat")
 # result = jsonpath(dic, "$..dog[?(@.isVIP)]")
 # result = jsonpath(dic, "$..dog[?(@.age > 5)]")
-result = jsonpath(dic, "$..dog[*].eat")
-print(result)
+# result = jsonpath(dic, "$..dog[*].eat")
+# print(result)
+
+
+# import xml.etree.ElementTree as ET
+#
+# with open("test.xml", "r") as f:
+#     result = ET.XML(f.read())
+#     print(result)
+#
+# result = ET.parse("test.xml")
+# print(result.findall("student"))
+#
+# ite = result.iter()
+# print(ite)
+#
+# for it in ite:
+#     print(it.attrib)
+
+
+def sum(n, count):
+    result = 0
+    while count > 0:
+        result += n * 3
+        n = n + 5
+        count = count -1
+
+    print(result)
+
+sum(35, 35)
