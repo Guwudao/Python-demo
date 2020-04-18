@@ -3,9 +3,10 @@ import shutil
 
 
 # path = "/Users/jj/Desktop/book/"
-path = "/Users/jackie/Downloads/周杰伦全部专辑-无损音质版"
+# path = "/Users/jackie/Downloads/周杰伦全部专辑-无损音质版"
 # path = input("请输入文件夹路径: ")
 # path = "/Users/jackie/Downloads/小鸟酱"
+path = "/Users/jackie/Music/网易云音乐"
 
 if not os.path.exists(path):
     exit()
@@ -44,21 +45,19 @@ def file_name_append(path, old_name, prefix):
         os.rename(path, final)
 
 
-def file_filter(path, file_name):
+def file_filter(path, file_name, filter_key):
     suffix = file_name.split(".")[-1]
     full_path = path+ "/" + file_name
 
-    if suffix == "xltd":
+    if suffix == filter_key:
         os.remove(full_path)
 
 
-def file_move(path, condition):
-    default_dir = "/Users/jackie/Downloads/周杰伦zip/"
+def file_move(path, default_dir):
     if not os.path.exists(default_dir):
         os.makedirs(default_dir)
 
-    if path.split(".")[-1] == "zip":
-        shutil.move(path, default_dir)
+    shutil.move(path, default_dir)
 
 
 dir_name = ""
@@ -72,7 +71,7 @@ def file_traverse(file_name, index=0):
 
         for sub_file in os.listdir(file_name):
 
-            # print(index * "-" + sub_file)
+            print(index * "-" + sub_file)
             sub_path = file_name + "/" + sub_file
 
             # 遍历文件夹内文件并记录
@@ -80,7 +79,7 @@ def file_traverse(file_name, index=0):
             #     f.write(sub_file+'\n')
 
             # 文件过滤
-            # file_filter(file_name, sub_file)
+            # file_filter(file_name, sub_file, "xltd")
 
             # 重命名
             # index += 1
@@ -90,9 +89,13 @@ def file_traverse(file_name, index=0):
             # file_name_append(sub_path, sub_file, dir_name)
 
             # 移动文件夹
-            # file_move(sub_path, "zip")
-
-            file_traverse(sub_path, index)
+            # singer = "陈奕迅"
+            # if singer in sub_file:
+            #     print(sub_file)
+            #     default_dir = "/Users/jackie/Downloads/" + singer
+            #     file_move(sub_path, default_dir)
+            #
+            # file_traverse(sub_path, index)
 
 
 file_traverse(path)
