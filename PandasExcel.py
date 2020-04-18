@@ -305,16 +305,16 @@ def work_performance():
 
 
 def working_time():
-    work = pd.read_excel("./Excel/HSBC业务线加班资源池-2020.xls", sheet_name="OT资源池", skiprows=2)
+    # work = pd.read_excel("./Excel/HSBC业务线加班资源池-2020.xls", sheet_name="OT资源池", skiprows=2)
     # work = work.loc[(work["RM"] == "黄英") & (work["交付部"] == "移动业务交付部")]
     # work = work.loc[work["姓名"] == "张广洋"]
     # print(work)
-    work.to_excel("./Excel/OT.xlsx")
+    # work.to_excel("./Excel/OT.xlsx")
 
-    # ot = pd.read_excel("./Excel/OT.xlsx")
-    # ot = ot.loc[ot["姓名"] == "张广洋"]
-    # print(ot)
-    # ot.to_excel("./Excel/our_ot.xlsx")
+    ot = pd.read_excel("./Excel/OT.xlsx")
+    ot = ot.loc[(ot["姓名"] == "林俊杰") | (ot["姓名"] == "戴国明") | (ot["姓名"] == "李彬特") | (ot["姓名"] == "黄文斌") | (ot["姓名"] == "陈洋平") | (ot["姓名"] == "张广洋")]
+    print(ot)
+    ot.to_excel("./Excel/our_ot.xlsx")
 
 
 # hsbc_leave_file()
