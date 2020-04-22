@@ -101,19 +101,25 @@ def image_get():
 
 
 def bs_demo():
-    url = "https://www.meitulu.com/t/sugar-xiaotianxincc/"
+    # url = "https://www.meitulu.com/t/sugar-xiaotianxincc/"
+    url = "https://www.meitulu.com/t/sugar-xiaotianxincc/4.html"
 
     resp = requests.get(url)
     resp.encoding = "utf-8"
+    # print(resp.text)
     bs = BeautifulSoup(resp.text, "html.parser")
     # print(bs.title)
 
     a_list = list(bs.find_all("a"))
     title_list, url_list = [], []
+    # print(a_list)
 
     for a in a_list:
         content = a.get_text()
-        if "杨晨晨" in content and len(content) > 3:
+        # print(content)
+        if ("杨晨晨" in content or "sugar小甜心" in content) and len(content) > 3:
+        # if "[" in content:
+            print(content)
             title_list.append(content)
             url_list.append(a.get("href"))
 
@@ -130,12 +136,18 @@ def bs_demo():
             count_list.append(num[0])
 
     # print(title_list)
+    # print(len(title_list))
     # print(url_list)
+    # print(len(url_list))
     secondary_page(title_list, url_list, count_list)
 
 
 def secondary_page(title_list, url_list, count_list):
 
+    print(len(title_list))
+    print(len(url_list))
+    print(len(count_list))
+    acc = 0
     for title, url, count in zip(title_list, url_list, count_list):
         resp = requests.get(url)
         resp.encoding = "utf-8"
@@ -148,23 +160,33 @@ def secondary_page(title_list, url_list, count_list):
         for c in child:
             temp_url = c.get("src")
 
-        # print(temp_url)
         index = temp_url.rfind("/")
         base_url = temp_url[0:index + 1]
-        print(base_url)
+        # print(base_url)
 
-        print(title)
-        name =title.split(" ")[-1]
-        print(name)
-        print("-" * 50)
+        acc += 1
+        name =title.split(" ")[-1] + str(acc)
+        # print(name)
 
-        # download_bot(name, base_url, count)
+        download_bot(name, base_url, count)
 
 
 def download_bot(title, base_url, count):
     if not os.path.exists(title):
-        os.makedirs(f"./YYY/{title}")
+        os.mkdir(title)
 
+    print(count)
+    for i in range(int(count)):
+        print(i)
+        url = base_url + str(i) + ".jpg"
+        print(url)
+        resp = requests.get(url)
+        name = title + "_" + str(i) + ".jpg"
+
+        print(name)
+
+        with open(f"{title}/{name}", "wb") as f:
+            f.write(resp.content)
 
 
 
