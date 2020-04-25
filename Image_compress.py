@@ -1,4 +1,38 @@
 import os
+from PIL import Image, ImageFilter, ImageOps
+
+img = Image.open("IMG_9513.jpg")
+
+def dodge(a, b, alpha):
+    return min(int(a*255/(256 - b*alpha)), 255)
+
+def draw(img, blur=25, alpha=1.0, save_name="name"):
+    img1 = img.convert("L")
+    img2 = img1.copy()
+    img2 = ImageOps.invert(img2)
+
+    for i in range(blur):
+        img2 = img2.filter(ImageFilter.BLUR)
+
+    width, height = img1.size
+    for x in range(width):
+        for y in range(height):
+            a = img1.getpixel((x, y))
+            b = img2.getpixel((x, y))
+            img1.putpixel((x, y), dodge(a, b, alpha))
+
+    # img1.show()
+    img1.save(save_name)
+    print("complete--------------", save_name.split("/")[-1])
+
+draw(img, save_name="IMG_95131.jpg")
+
+# for i in range(70):
+#     i = i+1
+#     file_name = f"./CC/cc {i}.jpg"
+#     img = Image.open(file_name)
+#     save_name = f"./CC/YCC_{i}.jpg"
+#     draw(img, save_name=save_name)
 
 # dir_path = input("请输入文件夹路径：")
 # dir_path = "/Users/jackie/Downloads/小鸟酱/小鸟酱 小草莓系列系列003-四套210P4V 果醬JK 聖誕小果醬 黑絲OL 藍白兔子比基尼"
@@ -59,4 +93,4 @@ def file_traversal(dir_path, index=0):
         # print(str(size) + "kb")
         file_move(dir_path)
 
-file_traversal(dir_path)
+# file_traversal(dir_path)
