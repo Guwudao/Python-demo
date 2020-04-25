@@ -40,14 +40,27 @@ str = "about123 baba123 ba ab1 123ba123b 12ba1"
 # res12 = re.findall(r"\b[a-z]+\d+?\b", str)
 # print(res12)
 
-res13 = re.findall(r"\b(?:ba)+", str)
-# print(res13)
+# res13 = re.findall(r"\b(?:ba)+", str)
+# # print(res13)
+#
+# res14 = re.findall(r"\b[a-z]+\d*\b", str)
+# print(res14)
+#
+# res15 = re.findall(r"[a-z]+\d+", str)
+# print(res15)
 
-res14 = re.findall(r"\b[a-z]+\d*\b", str)
-print(res14)
+str = "a, b,;,;c  d  ;, e"
+res16 = re.split(r"[\s\,\;]+", str)
+print(res16)
 
-res15 = re.findall(r"[a-z]+\d+", str)
-print(res15)
+str = "010-12345231"
+res17 = re.match(r"\d{3}\-\d{3,8}", str)
+print(res17)
+if res17:
+    print("ok")
+else:
+    print("no")
+
 
 # s = "123 10e3 20e4e4 30ee5"
 # r = re.findall(r"\d+[eE]?\d*", s)
