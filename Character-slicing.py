@@ -74,7 +74,7 @@ team_list = ['WeChat', 'Staff', 'Payment', 'China', 'GBA', 'MVTM', 'Mobile', 'Sa
 count_list = [11, 12, 15, 12, 10, 4, 6, 6, 7, 14, 10, 27, 32, 9, 10, 11, 10, 11]
 
 l_list = []
-def get_leader_list(content) -> []:
+def get_leader_list(content):
     all_team = content.split("\n")
     # print(all_team)
     for team in all_team:

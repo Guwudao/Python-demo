@@ -5,8 +5,8 @@ import shutil
 # path = "/Users/jj/Desktop/book/"
 # path = "/Users/jackie/Downloads/周杰伦全部专辑-无损音质版"
 # path = input("请输入文件夹路径: ")
-# path = "/Users/jackie/Downloads/小鸟酱"
-path = "/Users/jackie/Music/网易云音乐"
+path = "/Users/jackie/Downloads/CC"
+# path = "/Users/jackie/Music/网易云音乐"
 
 if not os.path.exists(path):
     exit()
@@ -63,11 +63,10 @@ def file_move(path, default_dir):
 dir_name = ""
 def file_traverse(file_name, index=0):
     index += 1
+
+    # 重命名计数
+    # count = index
     if os.path.isdir(file_name):
-        # if not file_name.split("/")[-1] == "MP3":
-        #     global dir_name
-        #     dir_name = file_name.split("/")[-1]
-        #     print(dir_name)
 
         for sub_file in os.listdir(file_name):
 
@@ -82,8 +81,8 @@ def file_traverse(file_name, index=0):
             # file_filter(file_name, sub_file, "xltd")
 
             # 重命名
-            # index += 1
-            # file_rename(sub_path, "MSS", index)
+            # count += 1
+            # file_rename(sub_path, "YCC", count)
 
             # 名称拼接
             # file_name_append(sub_path, sub_file, dir_name)
