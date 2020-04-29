@@ -1,5 +1,6 @@
 from pyecharts.charts import Bar
 from pyecharts.options import TitleOpts, InitOpts
+from pyecharts.globals import ThemeType
 
 old_date = """
 0002闰八月0005闰五月0008闰正月0010闰十月0013闰七月0016闰四月0018闰十二月
@@ -368,7 +369,7 @@ print(old_count_list)
 print(new_count_list)
 
 (
-    Bar(init_opts=InitOpts(page_title="西元1298---5324年 平气 闰月分析"))
+    Bar(init_opts=InitOpts(page_title="西元1298---5324年 平气 闰月分析", theme=ThemeType.LIGHT))
     .add_xaxis(old_month_list)
     .add_yaxis("该月份闰月次数", old_count_list)
     .set_global_opts(title_opts=TitleOpts(title="西元1298---5324年 平气 闰月分析"))
@@ -376,7 +377,7 @@ print(new_count_list)
 )
 
 (
-    Bar(init_opts=InitOpts(page_title="西元1298---5324年 定气 闰月分析"))
+    Bar(init_opts=InitOpts(page_title="西元1298---5324年 定气 闰月分析", theme=ThemeType.ESSOS))
     .add_xaxis(new_month_list)
     .add_yaxis("该月份闰月次数", new_count_list)
     .set_global_opts(title_opts=TitleOpts(title="西元1298---5324年 定气 闰月分析"))
