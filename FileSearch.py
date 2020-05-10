@@ -5,8 +5,8 @@ import shutil
 # path = "/Users/jj/Desktop/book/"
 # path = "/Users/jackie/Downloads/周杰伦全部专辑-无损音质版"
 # path = input("请输入文件夹路径: ")
-path = "/Users/jackie/Downloads/CC"
-# path = "/Users/jackie/Music/网易云音乐"
+# path = "/Users/jackie/Downloads/CC"
+path = "/Users/jackie/Music/网易云音乐"
 
 if not os.path.exists(path):
     exit()
@@ -87,14 +87,14 @@ def file_traverse(file_name, index=0):
             # 名称拼接
             # file_name_append(sub_path, sub_file, dir_name)
 
-            # 移动文件夹
-            # singer = "陈奕迅"
+            # 网易云歌曲移动文件夹
+            # singer = "林俊杰"
             # if singer in sub_file:
             #     print(sub_file)
             #     default_dir = "/Users/jackie/Downloads/" + singer
             #     file_move(sub_path, default_dir)
-            #
-            # file_traverse(sub_path, index)
+
+            file_traverse(sub_path, index)
 
 
 file_traverse(path)
