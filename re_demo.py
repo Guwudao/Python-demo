@@ -25,8 +25,8 @@ weather = "全额奥多天气"
 # res7 = re.split("(\d+)", str)
 # print(res7)
 #
-res8 = re.findall("[^0-9]", str)
-res9 = re.findall("[^a-z]", str)
+# res8 = re.findall("[^0-9]", str)
+# res9 = re.findall("[^a-z]", str)
 # print(res8)
 # print(res9)
 
@@ -49,22 +49,38 @@ str = "about123 baba123 ba ab1 123ba123b 12ba1"
 # res15 = re.findall(r"[a-z]+\d+", str)
 # print(res15)
 
-str = "a, b,;,;c  d  ;, e"
-res16 = re.split(r"[\s\,\;]+", str)
-print(res16)
+# str = "a, b,;,;c  d  ;, e"
+# res16 = re.split(r"[\s\,\;]+", str)
+# print(res16)
 
-str = "010-12345231"
-res17 = re.match(r"\d{3}\-\d{3,8}", str)
-print(res17)
-if res17:
-    print("ok")
-else:
-    print("no")
+# str = "010-12345231"
+# res17 = re.match(r"\d{3}\-\d{3,8}", str)
+# print(res17)
+# if res17:
+#     print("ok")
+# else:
+#     print("no")
 
+# res18 = re.match(r"(\d{3})-(\d{3,8})", str)
+# print(res18.group(0))
+# print(res18.group(1))
+# print(res18.group(2))
+
+# str =r"/* part 1 */ code /* part 2 */"
+# res19 = re.findall(r"/\*.*?\*/", str)
+# print(res19)
+#
+# res20 = re.findall(r"(?<=/\*).+?(?=\*)", str)
+# print(res20)
+
+str = r"aaa111aaa , bbb222 , 333ccc"
+res21 = re.findall(f"[a-z]+(\d+)[a-z]+", str)
+print(res21)
 
 # s = "123 10e3 20e4e4 30ee5"
 # r = re.findall(r"\d+[eE]?\d*", s)
 # print(r)
+
 
 def foo(*args, **kwargs):
     for arg in args:
@@ -82,3 +98,35 @@ dic = {"a":1, "b":2, "c":3}
 # foo(tuple, list, dic)
 # foo(tuple, *list, **dic)
 # foo(1, 2, *list)
+
+print([x*11 for x in range(10)])
+
+
+def check(func):
+    def inner(*args, **kwargs):
+        print("check")
+        res = func(*args, **kwargs)
+        return res
+    return inner
+
+
+@check
+def sendMsg():
+    print("send msg")
+
+
+@check
+def ss(a):
+    print(a)
+    return a
+
+@check
+def sss(a, b):
+    print(a + b)
+
+# sendMsg()
+
+res1 = ss(10)
+res2 = sss(10, 20)
+
+print(res1, res2)
