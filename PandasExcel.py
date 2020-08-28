@@ -316,6 +316,13 @@ def working_time():
     print(ot)
     ot.to_excel("./Excel/our_ot.xlsx")
 
+def ot_time():
+    ot = pd.read_excel("./Excel/HSBC业务线加班资源池-2020-更新版0616.xls", sheet_name="OT资源池", skiprows=2)
+    # ot = ot.loc[(ot["交付部"] == "移动业务交付部") & (ot["RM"] == "黄英")]
+    ot = ot.loc[ot["姓名"] == "刘旭斌" ]
+    print(ot)
+    # ot.to_excel("./Excel/加班资源池-2020.xlsx")
+
 
 # hsbc_leave_file()
 # hsbc_working_file()
@@ -327,4 +334,5 @@ def working_time():
 # drop_duplicated()
 # pivot_table()
 # work_performance()
-working_time()
+# working_time()
+ot_time()

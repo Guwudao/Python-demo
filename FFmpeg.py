@@ -1,6 +1,7 @@
 import os
 import re
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 
 video_list = []
 
@@ -23,36 +24,35 @@ def get_all_videos(file_path):
 
     print(video_list)
 
+def file_converse(info):
+    print(f"================ {info[0]} begin ================")
+    try:
+        retcode = subprocess.call(info[1], shell=True)
+        if retcode == 0:
+            print(info[0], "success----------")
+        else:
+            print(info[0], "is failed--------")
+    except Exception as e:
+        print("Error:", e)
+
 
 def file_processing(file_list):
-    print("start----------------")
     code_pre = "ffmpeg -i "
-    code_mid = " -b:v 800k -bufsize 800k "
+    code_mid = " -b:v 300k "
 
-    for file_name in file_list:
-        old_name = file_name.split(".")
-        new_name = old_name[0] + "_new.mkv"
-        # print(new_name)
+    with ThreadPoolExecutor(max_workers=5) as pool:
+        for file_name in file_list:
+            old_name = file_name.split(".")
+            new_name = old_name[0] + "_new.mp4"
+            # print(new_name)
 
-        command = code_pre + file_name + code_mid + new_name
-        test_name = os.path.basename(file_name).split('.')
-        try:
-            retcode = subprocess.call(command, shell=True)
-            if retcode == 0:
-                print(test_name[0], "success----------")
-            else:
-                print(test_name[0], "is failed--------")
-        except Exception as e:
-            print("Error:", e)
+            command = code_pre + file_name + code_mid + new_name
+            test_name = os.path.basename(file_name).split('.')
+
+            pool.map(file_converse, [(test_name[0], command)])
         # print(command)
 
     print("---------------End all-----------------")
-
-
-class VideoOperation:
-
-    def video_compress(self, video_path, output_path):
-        pass
 
 
 if __name__ == '__main__':

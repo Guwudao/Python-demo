@@ -71,21 +71,13 @@ def douban_movie():
 def image_get():
     url = "https://www.meitulu.com/t/sugar-xiaotianxincc/"
 
-    url1 = "https://www.meitulu.com/item/20818.html"
+    for i in range(48):
+        # d_url = f"https://mtl.gzhuibei.com/images/img/20779/{i+1}.jpg"
+        # d_url = f"https://mtl.gzhuibei.com/images/img/10183/{i+1}.jpg"
+        d_url = f"https://mtl.gzhuibei.com/images/img/8019/{i+1}.jpg"
 
-    # resp.encoding = "utf-8"
-    # print(resp.content)
-
-    for i in range(96):
-        # d_url = f"https://mtl.gzhuibei.com/images/img/20818/{i+1}.jpg"
-        # d_url = f"https://mtl.gzhuibei.com/images/img/20831/{i+1}.jpg"
-        # d_url = f"https://mtl.gzhuibei.com/images/img/20828/{i+1}.jpg"
-        # d_url = f"https://mtl.gzhuibei.com/images/img/20811/{i+1}.jpg"
-        # d_url = f"https://mtl.gzhuibei.com/images/img/20791/{i+1}.jpg"
-        d_url = f"https://mtl.gzhuibei.com/images/img/20779/{i+1}.jpg"
-
-        prefix = "杨晨晨sugar_"
-        suffix = "剧情写真"
+        prefix = "菲儿_"
+        suffix = "奶牛"
         name = prefix + suffix + str(i+1) + ".jpg"
         resp = requests.get(d_url)
 
@@ -93,8 +85,6 @@ def image_get():
 
         if not os.path.exists(dir_name):
             os.makedirs(dir_name)
-            # os.chdir(dir_name)
-
 
         with open(f"./{dir_name}/{name}", "wb") as f :
             f.write(resp.content)
@@ -102,13 +92,26 @@ def image_get():
 
 def bs_demo():
     # url = "https://www.meitulu.com/t/sugar-xiaotianxincc/"
-    url = "https://www.meitulu.com/t/sugar-xiaotianxincc/4.html"
+    url = "https://www.meitulu.com/t/ningmengc-lemon/2.html"
 
     resp = requests.get(url)
     resp.encoding = "utf-8"
     # print(resp.text)
     bs = BeautifulSoup(resp.text, "html.parser")
     # print(bs.title)
+
+    print(bs.find_all("p")[0].find_all("a"))
+
+    pa_list = []
+    for p in bs.find_all("p"):
+        pa_tag = p.find_all("a")
+        # print(pa_tag)
+
+        if len(pa_tag) > 0 and "[" in pa_tag[0].get_text() :
+            pa_list.append(pa_tag[0].get("href"))
+
+    print(len(pa_list))
+
 
     a_list = list(bs.find_all("a"))
     title_list, url_list = [], []
@@ -117,9 +120,8 @@ def bs_demo():
     for a in a_list:
         content = a.get_text()
         # print(content)
-        if ("杨晨晨" in content or "sugar小甜心" in content) and len(content) > 3:
-        # if "[" in content:
-            print(content)
+        if ("妲己" in content) and len(content) > 3:
+        #     print(content)
             title_list.append(content)
             url_list.append(a.get("href"))
 
@@ -135,11 +137,23 @@ def bs_demo():
             num = re.findall(r"\d+", p.get_text())
             count_list.append(num[0])
 
+    title_list = list(set(title_list))
+    title_list.remove("妲己_Toxic")
+
     # print(title_list)
     # print(len(title_list))
+
     # print(url_list)
     # print(len(url_list))
-    secondary_page(title_list, url_list, count_list)
+    # print(count_list)
+    # print(len(count_list))
+
+    if len(title_list) == len(pa_list) and len(title_list) == len(count_list):
+        secondary_page(title_list, pa_list, count_list)
+    else:
+        print("数据不对等，已暂停")
+        print(f"title_list: {len(title_list)}, pa_list: {len(pa_list)}, count_list: {len(count_list)}")
+        return
 
 
 def secondary_page(title_list, url_list, count_list):
@@ -193,6 +207,6 @@ def download_bot(title, base_url, count):
 # douban_movie()
 # juhe_news()
 # juhe_cp()
-# image_get()
+image_get()
 
-bs_demo()
+# bs_demo()
