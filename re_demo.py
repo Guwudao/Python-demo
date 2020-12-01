@@ -1,16 +1,17 @@
 import re
 
 str = "about123ba123ba123ba123b"
-weather = "全额奥多天气"
+weather = "磁力链接magnet:?xt=urn:btih:E7992F9A6649926248EFF6FFB83EC58316530E5A"
 
-# res = re.findall(r"a(.+)b", str)
-# res1 = re.findall(r"a(.+?)b", str)
-# res2 = re.findall(r"a(.*)b", str)
-# res3 = re.findall(r".(?=[^.]*$)", weather)
+res = re.findall(r"a(.+)b", str)
+res1 = re.findall(r"a(.+?)b", str)
+res2 = re.findall(r"a(.*)b", str)
+res3 = re.findall(r"磁力链接(.*)", weather)
 
 # print(res)
 # print(res1)
 # print(res2)
+print(res3)
 
 # res4 = re.findall("\d+", str)
 # print(res4)

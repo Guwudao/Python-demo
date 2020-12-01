@@ -317,11 +317,47 @@ def working_time():
     ot.to_excel("./Excel/our_ot.xlsx")
 
 def ot_time():
-    ot = pd.read_excel("./Excel/HSBC业务线加班资源池-2020-更新版0616.xls", sheet_name="OT资源池", skiprows=2)
+    ot = pd.read_excel("./Excel/网银GL分组-2020-11-23.xlsx")
     # ot = ot.loc[(ot["交付部"] == "移动业务交付部") & (ot["RM"] == "黄英")]
-    ot = ot.loc[ot["姓名"] == "刘旭斌" ]
-    print(ot)
-    # ot.to_excel("./Excel/加班资源池-2020.xlsx")
+    # ot = ot.loc[ot["GL"] == "林俊杰" ]
+    # print(ot)
+    # ot.to_excel("./Excel/GL.xlsx")
+
+    total_tl_list = np.array(ot["GL"])
+    leader_list = []
+
+    for leader in total_tl_list:
+        if leader not in leader_list:
+            leader_list.append(leader)
+
+    print(leader_list)
+
+    for leader in leader_list:
+        data = ot.loc[ot["GL"] == leader]
+        data.to_excel("{}-GL.xlsx".format(leader))
+
+    print("==================== success ====================")
+
+
+def data_compare(sheet_name, tag_name):
+    ori_report = pd.read_excel("./Excel/2018原始.xls", sheet_name=sheet_name)
+    ori_report_list = [name[0:3] for name in np.array(ori_report["线索名称"])]
+    print(len(ori_report_list))
+
+    current_report = pd.read_excel("./Excel/2018系统.xls", sheet_name=sheet_name)
+    current_report_list = [name[0:3] for name in np.array(current_report["报案线索名称"])]
+    print(len(current_report_list))
+
+    print(ori_report_list)
+
+    # print(ori_report_list ^ current_report_list)
+
+    # common = ori_report_list & current_report_list
+    common = [name for name in ori_report_list if name in current_report_list]
+    print(len(common))
+
+    # print([source for source in ori_report_list if source not in common])
+    # print([source for source in current_report_list if source not in common])
 
 
 # hsbc_leave_file()
@@ -335,4 +371,6 @@ def ot_time():
 # pivot_table()
 # work_performance()
 # working_time()
-ot_time()
+# ot_time()
+
+data_compare("报案", "报案线索名称")

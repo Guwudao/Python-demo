@@ -1,8 +1,8 @@
-# import pdfkit
+import pdfkit
 
-# pdfkit.from_url("https://blog.csdn.net/weixin_40907382/article/details/79654372", "re1.pdf")
 
-# pdfkit.from_url("http://www.dy1234.net/sub/19140.html", "ali.pdf")
+pdfkit.from_file("pdf_target.html", "chrome.pdf")
+# pdfkit.from_url("https://zhuanlan.zhihu.com/p/32825491", "chrome.pdf")
 
 from datetime import datetime
 import threading
@@ -28,28 +28,33 @@ import time
 # print(datetime.now().strftime("%H:%M:%S"))
 
 
-def receive_msg():
-    start_time_monitor()
+# def receive_msg():
+#     start_time_monitor()
+#
+#
+# def execute():
+#     print("reminder")
+#     timer = threading.Timer(5, execute)
+#     timer.start()
+#     print(datetime.now().strftime("%H:%M:%S"))
+#     end = time.time()
+#     interval = end - start
+#
+#     if interval > 30:
+#         timer.cancel()
+#
+#
+# def start_time_monitor():
+#     timer = threading.Timer(10, execute)
+#     timer.start()
+#
+#
+# # receive_msg()
+# timer = threading.Timer(1, execute)
+# timer.start()
+# start = time.time()
 
+import itertools
 
-def execute():
-    print("reminder")
-    timer = threading.Timer(5, execute)
-    timer.start()
-    print(datetime.now().strftime("%H:%M:%S"))
-    end = time.time()
-    interval = end - start
-
-    if interval > 30:
-        timer.cancel()
-
-
-def start_time_monitor():
-    timer = threading.Timer(10, execute)
-    timer.start()
-
-
-# receive_msg()
-timer = threading.Timer(1, execute)
-timer.start()
-start = time.time()
+char = ["a", "b", "c", "d", "e", "f"]
+print(list(itertools.combinations(char, r=4)))
