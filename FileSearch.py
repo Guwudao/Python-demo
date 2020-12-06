@@ -6,7 +6,7 @@ import sys
 # path = "/Users/jackie/Downloads/周杰伦全部专辑-无损音质版"
 # path = input("请输入文件夹路径: ")
 # path = "/Users/jackie/Downloads/new/徐vv"
-# path = "/Users/jackie/Music/网易云音乐"
+path = "/Users/jackie/Music/网易云音乐"
 #
 # if not os.path.exists(path):
 #     exit()
@@ -46,12 +46,18 @@ def file_name_append(path, old_name, prefix):
         os.rename(path, final)
 
 
-def file_filter(path, file_name, filter_key):
+def file_filter_remove(path, file_name, filter_key):
     suffix = file_name.split(".")[-1]
     full_path = path+ "/" + file_name
 
     if suffix == filter_key:
         os.remove(full_path)
+
+
+def folder_remove(folder_name, filter_key):
+    if filter_key in folder_name:
+        print(folder_name)
+        os.rmdir(folder_name)
 
 
 def file_move(path, default_dir):
@@ -60,6 +66,17 @@ def file_move(path, default_dir):
         os.makedirs(default_dir)
 
     shutil.move(path, default_dir)
+
+
+def file_filter_move(dir, path, sub_path, file_name, target_suffix):
+    dir_path = os.path.join(path, dir)
+    if not os.path.exists():
+        os.mkdir(dir_path)
+
+    file_suffix = file_name.split(".")[-1]
+    if file_suffix == target_suffix:
+        print(file_name)
+        file_move(sub_path, dir_path)
 
 
 def file_collection():
@@ -87,10 +104,10 @@ def file_collection():
                 ori = dir_path + "/" + file
                 if os.path.isfile(ori):
                     des = path + "/" + new_dir
-                    # print(ori)
-                    # print(des)
+                    print(ori)
+                    print(des)
                     # print("-" * 50)
-                    shutil.move(ori, des)
+                    # shutil.move(ori, des)
             except Exception as e:
                 print("files move error: ", e)
 
@@ -101,13 +118,13 @@ def file_traverse(file_name, index=0):
     index += 1
 
     # 重命名开启计数
-    count = index
+    # count = index
     if os.path.isdir(file_name):
 
         for sub_file in os.listdir(file_name):
 
-            print(index * "-" + sub_file)
-            sub_path = file_name + "/" + sub_file
+            # print(index * "-" + sub_file)
+            sub_path = os.path.join(file_name, sub_file)
 
             # 遍历文件夹内文件并记录
             # with open("python教程文档.txt", "a+") as f:
@@ -130,12 +147,18 @@ def file_traverse(file_name, index=0):
             #     default_dir = "/Users/jackie/Downloads/" + singer
             #     file_move(sub_path, default_dir)
 
+            # 提取指定后缀文件到文件夹
+            # file_filter_move("ncm_dir", path, sub_path, sub_file, "ncm")
+
+            # 删除包含指定字符的文件夹
+            # folder_remove(sub_path, "dir")
+
             file_traverse(sub_path, index)
 
 
-# file_traverse(path)
+file_traverse(path)
 # file_collection()
 
-if __name__ == '__main__':
-    print(sys.argv[0])
-    print(sys.argv[1])
+# if __name__ == '__main__':
+#     print(sys.argv[0])
+#     print(sys.argv[1])
