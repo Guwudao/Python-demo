@@ -1,32 +1,30 @@
 import os
 import shutil
-import sys
+import subprocess
 
-# path = "/Users/jj/Desktop/book/"
-# path = "/Users/jackie/Downloads/周杰伦全部专辑-无损音质版"
+# path = "/Users/jackie/Desktop/Python_project/sheju_crawl/jstaotu/王语纯/"
+path = "/Users/jackie/Desktop/PersonalInfo/中软资料"
 # path = input("请输入文件夹路径: ")
-# path = "/Users/jackie/Downloads/new/徐vv"
-path = "/Users/jackie/Music/网易云音乐"
+# path = "/Users/jackie/Downloads/小热巴：www.hrka.cc"
+# path = "/Users/jackie/Music/网易云音乐"
 #
 # if not os.path.exists(path):
 #     exit()
 
 
 def file_rename(old_name, new_name, index=0):
-    print("file_rename")
+    print(old_name)
     if os.path.exists(old_name):
         if "." in old_name:
             suffix = old_name.split('.')[-1]
             # print(suffix)
             current_name = "%s %s.%s" % (new_name, index, suffix)
-            print("current_name: ", current_name)
-
             path = old_name.rfind("/") + 1
             new_path = old_name[0:path] + current_name
 
             print("old_name: ", old_name)
             print("new_path: ", new_path)
-            os.rename(old_name, new_path)
+            # os.rename(old_name, new_path)
         else:
             # os.rename(old_name, new_name)
             print("pass")
@@ -46,7 +44,7 @@ def file_name_append(path, old_name, prefix):
         os.rename(path, final)
 
 
-def file_filter_remove(path, file_name, filter_key):
+def file_filter_delete(path, file_name, filter_key):
     suffix = file_name.split(".")[-1]
     full_path = path+ "/" + file_name
 
@@ -112,6 +110,16 @@ def file_collection():
                 print("files move error: ", e)
 
 
+git_path = "/Users/jackie/Desktop/PersonalInfo"
+def git_commit(file, path):
+    os.chdir(git_path)
+    suffix = file.split(".")[-1]
+    if suffix == "xls" or suffix == "xlsx":
+        command = "git add -f " + path
+        print(command)
+        subprocess.call(command, shell=True)
+
+
 dir_name = ""
 def file_traverse(file_name, index=0):
     # 重命名是需注释掉
@@ -123,15 +131,19 @@ def file_traverse(file_name, index=0):
 
         for sub_file in os.listdir(file_name):
 
-            # print(index * "-" + sub_file)
+            print(index * "-" + sub_file)
             sub_path = os.path.join(file_name, sub_file)
+            print(index * "-" + sub_path)
+
+            # git强制提交
+            # git_commit(sub_file, sub_path)
 
             # 遍历文件夹内文件并记录
             # with open("python教程文档.txt", "a+") as f:
             #     f.write(sub_file+'\n')
 
             # 文件过滤
-            # file_filter(file_name, sub_file, "txt")
+            # file_filter_delete(file_name, sub_file, "url")
 
             # 重命名
             # count += 1
@@ -141,7 +153,7 @@ def file_traverse(file_name, index=0):
             # file_name_append(sub_path, sub_file, dir_name)
 
             # 网易云歌曲移动文件夹
-            # singer = "林俊杰"
+            # singer = "高清"
             # if singer in sub_file:
             #     print(sub_file)
             #     default_dir = "/Users/jackie/Downloads/" + singer
@@ -151,14 +163,11 @@ def file_traverse(file_name, index=0):
             # file_filter_move("ncm_dir", path, sub_path, sub_file, "ncm")
 
             # 删除包含指定字符的文件夹
-            # folder_remove(sub_path, "dir")
+            # folder_remove(sub_path, "xls")
+
 
             file_traverse(sub_path, index)
 
 
 file_traverse(path)
 # file_collection()
-
-# if __name__ == '__main__':
-#     print(sys.argv[0])
-#     print(sys.argv[1])

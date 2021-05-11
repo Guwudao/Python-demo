@@ -9,6 +9,7 @@ verify_ssl = true
 wkhtmltopdf = "*"
 wechatsogou = "*"
 werkzeug = "*"
+xlwt = "*"
 
 [requires]
 python_version = "3.7"
