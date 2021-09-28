@@ -54,31 +54,25 @@ def update_template(working_data):
                     print(f"{name} {working_date.value} {type} {hour} 小时 已自动导入")
 
     template.save(filename=template_path)
-    print("—————————————————— 牛🐂 Finish 逼 ——————————————————")
-    print("备注：为方便校验，已将自动填充单元格标为红色\n")
-
-
-def value_print(name, staff_id, value, coordinate, date):
-    pass
-    # print(name)
-    # print(staff_id)
-    # print(value)
-    # print(coordinate)
-    # print(date)
-    # print("-" * 30)
+    print("\n🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂")
+    print("—————————————————————— 牛🐂Finish🐂逼 ——————————————————————")
+    print("备注：为方便校验，已将自动填充单元格标为 &紫色&\n")
 
 
 def get_working_data():
     print("=" * 20 + " 开始数据过滤 " + "=" * 20)
     sheet = workingTime[working_time_sheet_name]
-    working_data = []
+
     for row in sheet.rows:
         staff_id = row[2].value
         name = row[5].value
-        for cell, date in zip(row, sheet["3"]):
-            # print(cell.value)
-            if cell.value is None:
+        for cell, (index, date) in zip(row, enumerate(sheet[3])):
+            # print(cell.value, index, date.value)
+            if index < 8:  # 前7列非请假数据自动跳过
                 continue
+
+            if type(cell.value) is str and len(cell.value) >= 5:
+                exception_data.append((name, date.value, cell.value))
 
             if type(cell.value) is str and len(cell.value) < 5:
                 # column = re.findall(r"\d+", cell.value)
@@ -88,43 +82,34 @@ def get_working_data():
                 if "事" in cell.value:
                     # 事假
                     working_data.append((name, staff_id, column, "事假", date.value))
-                    value_print(name, staff_id, column, "事假", date.value)
                 elif "调" in cell.value:
                     # 调休
                     # working_data.append((name, staff_id, column, "调休", date.value))
-                    value_print(name, staff_id, column, "调休", date.value)
+                    pass
                 elif "年" in cell.value:
                     # 年假
                     working_data.append((name, staff_id, column, "年假", date.value))
-                    value_print(name, staff_id, column, "年假", date.value)
                 elif "婚" in cell.value:
                     # 婚假
                     working_data.append((name, staff_id, column, "婚假", date.value))
-                    value_print(name, staff_id, column, "婚假", date.value)
                 elif "产" in cell.value:
                     # 产假
                     working_data.append((name, staff_id, column, "产假", date.value))
-                    value_print(name, staff_id, column, "产假", date.value)
                 elif "哺" in cell.value:
                     # 哺乳假
                     working_data.append((name, staff_id, column, "哺乳假", date.value))
-                    value_print(name, staff_id, column, "哺乳假", date.value)
                 elif "病" in cell.value:
                     # 病假
                     working_data.append((name, staff_id, column, "病假", date.value))
-                    value_print(name, staff_id, column, "病假", date.value)
                 elif "丧" in cell.value:
                     # 丧假
                     working_data.append((name, staff_id, column, "丧假", date.value))
-                    value_print(name, staff_id, column, "丧假", date.value)
                 elif "检" in cell.value:
                     # 产检假
                     working_data.append((name, staff_id, column, "产检假", date.value))
-                    value_print(name, staff_id, column, "产检假", date.value)
                 elif "陪" in cell.value:
                     # 陪产假
                     working_data.append((name, staff_id, column, "陪产假", date.value))
-                    value_print(name, staff_id, column, "陪产假", date.value)
     # print(working_data)
     return working_data
 
@@ -147,10 +132,15 @@ if __name__ == '__main__':
     template_sheet_name = "工时数据"
     working_time_path = "./Excel/9月请假明细.xlsx"
     working_time_sheet_name = "Sheet1"
-    background_color = "FF0000"
+    background_color = "9933cc"
+
+    working_data = []
+    exception_data = []
 
     print(">" * 20 + " 开始导入Excel " + "<" * 20)
     workingTime = load_workbook(filename=working_time_path)
     template = load_workbook(filename=template_path)
-    working_data = get_working_data()
+
+    get_working_data()
     update_template(working_data)
+    print("无法处理数据，需手动校正：", exception_data)
