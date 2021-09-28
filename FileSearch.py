@@ -2,11 +2,10 @@ import os
 import shutil
 import subprocess
 
-# path = "/Users/jackie/Desktop/Python_project/sheju_crawl/jstaotu/王语纯/"
 path = "/Users/jackie/Desktop/PersonalInfo/中软资料"
 # path = input("请输入文件夹路径: ")
-# path = "/Users/jackie/Downloads/小热巴：www.hrka.cc"
 # path = "/Users/jackie/Music/网易云音乐"
+GIT_PATH = "/Users/jackie/Desktop/PersonalInfo"
 #
 # if not os.path.exists(path):
 #     exit()
@@ -110,9 +109,8 @@ def file_collection():
                 print("files move error: ", e)
 
 
-git_path = "/Users/jackie/Desktop/PersonalInfo"
 def git_commit(file, path):
-    os.chdir(git_path)
+    os.chdir(GIT_PATH)
     suffix = file.split(".")[-1]
     if suffix == "xls" or suffix == "xlsx":
         command = "git add -f " + path
@@ -136,7 +134,7 @@ def file_traverse(file_name, index=0):
             print(index * "-" + sub_path)
 
             # git强制提交
-            # git_commit(sub_file, sub_path)
+            git_commit(sub_file, sub_path)
 
             # 遍历文件夹内文件并记录
             # with open("python教程文档.txt", "a+") as f:

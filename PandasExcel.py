@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from scipy.stats import linregress
+# from scipy.stats import linregress
 
-import PyechartsDataAnalysis
+# import PyechartsDataAnalysis
 
 # import matplotlib.font_manager
 
@@ -317,24 +317,25 @@ def working_time():
     ot.to_excel("./Excel/our_ot.xlsx")
 
 def ot_time():
-    ot = pd.read_excel("./Excel/网银GL分组-2020-11-23.xlsx")
+    ot = pd.read_excel("./Excel/PL架构.xlsx", sheet_name="Sheet1")
     # ot = ot.loc[(ot["交付部"] == "移动业务交付部") & (ot["RM"] == "黄英")]
-    # ot = ot.loc[ot["GL"] == "林俊杰" ]
-    # print(ot)
+    # ot = ot.loc[ot["New GL"] == "林俊杰" ]
+    print(len(ot["姓名"]))
+    print(list(ot["姓名"]))
     # ot.to_excel("./Excel/GL.xlsx")
 
-    total_tl_list = np.array(ot["GL"])
-    leader_list = []
-
-    for leader in total_tl_list:
-        if leader not in leader_list:
-            leader_list.append(leader)
-
-    print(leader_list)
-
-    for leader in leader_list:
-        data = ot.loc[ot["GL"] == leader]
-        data.to_excel("{}-GL.xlsx".format(leader))
+    # total_tl_list = np.array(ot["GL"])
+    # leader_list = []
+    #
+    # for leader in total_tl_list:
+    #     if leader not in leader_list:
+    #         leader_list.append(leader)
+    #
+    # print(leader_list)
+    #
+    # for leader in leader_list:
+    #     data = ot.loc[ot["GL"] == leader]
+    #     data.to_excel("{}-GL.xlsx".format(leader))
 
     print("==================== success ====================")
 
@@ -371,6 +372,6 @@ def data_compare(sheet_name, tag_name):
 # pivot_table()
 # work_performance()
 # working_time()
-# ot_time()
+ot_time()
 
-data_compare("报案", "报案线索名称")
+# data_compare("报案", "报案线索名称")
