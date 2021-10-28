@@ -114,7 +114,7 @@ def git_commit(file, path):
     suffix = file.split(".")[-1]
     if suffix == "xls" or suffix == "xlsx":
         command = "git add -f " + path
-        print(command)
+        # print(command)
         subprocess.call(command, shell=True)
 
 
