@@ -57,8 +57,7 @@ def update_template(working_data, template):
 
     template.save(filename=template_path)
     print(f"\n——————————— 已自动导入 {len(working_data)} 条请假数据 ———————————")
-    print("🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂🐂")
-    print("——————————————— 牛🐂finish🐂逼 ———————————————")
+    print("———————————— 牛🐂🐂🐂🐂finish🐂🐂🐂🐂逼 ————————————")
     print("备注：为方便校验，已将自动填充单元格标为 &>> 紫色 <<&\n")
 
 
@@ -202,8 +201,10 @@ if __name__ == '__main__':
 
     for index, file in enumerate(file_list):
         is_last_month = (index + 1) == len(file_list)
+        if not is_last_month and not is_chart_mode:
+            continue
 
-        print(">" * 20 + f" 开始导入{file} " + "<" * 20)
+        print(">" * 20 + f" 开始导入：{file} " + "<" * 20)
         file_path = "./Excel/" + file
         workbook = load_workbook(filename=file_path)
         work_data, total_data = get_working_data(workbook, working_time_sheet_name, is_last_month)
