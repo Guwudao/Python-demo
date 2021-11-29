@@ -2,16 +2,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>9月请假数据分析</title>
+    <title>9月请假数据</title>
             <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
 
 </head>
 <body>
-    <div id="7341882aec9443c7a06a42eb354e131e" class="chart-container" style="width:1400px; height:800px;"></div>
+    <div id="d0a7a411196c423b8421b09cc04fe8fb" class="chart-container" style="width:1400px; height:800px;"></div>
     <script>
-        var chart_7341882aec9443c7a06a42eb354e131e = echarts.init(
-            document.getElementById('7341882aec9443c7a06a42eb354e131e'), 'white', {renderer: 'canvas'});
-        var option_7341882aec9443c7a06a42eb354e131e = {
+        var chart_d0a7a411196c423b8421b09cc04fe8fb = echarts.init(
+            document.getElementById('d0a7a411196c423b8421b09cc04fe8fb'), 'white', {renderer: 'canvas'});
+        var option_d0a7a411196c423b8421b09cc04fe8fb = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -49,12 +49,12 @@
     "series": [
         {
             "type": "pie",
-            "name": "9\u6708\u8bf7\u5047\u6570\u636e\u5206\u6790",
+            "name": "9\u6708\u8bf7\u5047\u6570\u636e",
             "clockwise": true,
             "data": [
                 {
                     "name": "\u4e8b\u5047",
-                    "value": 385.0
+                    "value": 438.0
                 },
                 {
                     "name": "\u8c03\u4f11",
@@ -105,7 +105,14 @@
             "label": {
                 "show": true,
                 "position": "top",
-                "margin": 8
+                "margin": 8,
+                "formatter": "{b}: {c}"
+            },
+            "rippleEffect": {
+                "show": true,
+                "brushType": "stroke",
+                "scale": 2.5,
+                "period": 4
             }
         }
     ],
@@ -150,7 +157,7 @@
     },
     "title": [
         {
-            "text": "9\u6708\u8bf7\u5047\u6570\u636e\u5206\u6790",
+            "text": "9\u6708\u8bf7\u5047\u6570\u636e",
             "left": "200px",
             "top": "80px",
             "padding": 5,
@@ -234,7 +241,7 @@
         }
     }
 };
-        chart_7341882aec9443c7a06a42eb354e131e.setOption(option_7341882aec9443c7a06a42eb354e131e);
+        chart_d0a7a411196c423b8421b09cc04fe8fb.setOption(option_d0a7a411196c423b8421b09cc04fe8fb);
     </script>
 </body>
 </html>

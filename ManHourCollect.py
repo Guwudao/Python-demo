@@ -20,21 +20,9 @@ WARNING_STRING = """
 -> 陪产假: 陪8
 """
 
-TIPS_STRING = """
--> 输入格式有误，请从上往下依次输入，中间空格隔开
--> python
--> ManHourCollect.py
--> 统计工时文件路径名称，如：./Excel/出勤信息-2021Daisy0812.xlsx
--> 统计工时表单（sheet）名称，如：8月（总）
--> 模板文件路径名称，如：./Excel/导出工时明细.xlsx
--> 模板工时表单（sheet）名称，如：工时数据
-
---> 最终样式模板：python ManHourCollect.py ./Excel/出勤信息-2021Daisy0812.xlsx 8月（总） ./Excel/导出工时明细.xlsx 工时数据
-"""
-
 
 def update_template(working_data, template):
-    sheet = template[template_sheet_name]
+    sheet = template["工时数据"]
     print(">" * 20 + " 开始自动关联填写 " + "<" * 20)
     for (name, staff_id, hour, type, date) in working_data:
         # print(name, hour, type, date)
@@ -148,25 +136,28 @@ def help_tips(s):
     sys.stderr.flush()
 
 
-def chart_generation(data_list, title):
+def pie_chart_generation(data_list, title):
     pie_city = (
         Pie(init_opts=InitOpts(
             page_title=title,
             width="1400px",
             height="800px",
         ))
-        .add(
-            data_pair=data_list[0],
+            .add(
+            data_pair=data_list,
             series_name=title,
-            # radius=["25%", "75%"],
-            # rosetype="radius"
+            radius=["25%", "75%"],
+            rosetype="radius"
         )
-        .set_global_opts(toolbox_opts=ToolboxOpts(is_show=True, pos_top="50px"),
+            .set_global_opts(toolbox_opts=ToolboxOpts(is_show=True, pos_top="50px"),
                              title_opts=TitleOpts(title=title, pos_top="80px", pos_left="200px"))
-        .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
-        .render(f"{title}_pie.html")
+            .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
+            .render(f"{title}_pie.html")
     )
+    print(">" * 20 + f" {title} 饼图制作完成 " + "<" * 20)
 
+
+def chart_generation(data_list, title):
     animation = opts.AnimationOpts(animation_delay=1000, animation_easing="elasticOut")
     bar_sex = Bar(init_opts=InitOpts(page_title=title, theme=ThemeType.LIGHT, animation_opts=animation))
 
@@ -174,28 +165,17 @@ def chart_generation(data_list, title):
     bar_sex.add_xaxis(type_list)
 
     for index, data in enumerate(data_list):
-        print(data)
         bar_sex.add_yaxis(f"{index + 9}月请假", [j for i, j in data])
+        # 按月生成饼图
+        pie_chart_generation(data, f"{index + 9}月请假数据")
 
-    bar_sex.set_global_opts(title_opts=TitleOpts(title=title, pos_left="100"))
+    bar_sex.set_global_opts(toolbox_opts=ToolboxOpts(is_show=True, pos_top="30px", pos_left="800px"),
+                            title_opts=TitleOpts(title=title, pos_left="100"))
     bar_sex.render(f"{title}_bar.html")
-    print("================ 图表制作完成 ================")
+    print("================ 所有图表制作完成 ================")
 
 
-if __name__ == '__main__':
-    print("+" * 50)
-
-    is_chart_mode = False
-    background_color = "9933cc"
-    chart_title = "请假工时数据分析"
-    working_time_sheet_name = "Sheet1"
-    template_sheet_name = "工时数据"
-    exception_data = []
-
-    #获取模板
-    template_path = "./Excel/导出工时明细11月.xlsx"
-    template = load_workbook(filename=template_path)
-
+def run():
     file_list = ["9月请假明细.xlsx", "10月请假明细给JJ.xlsx", "11月请假明细给JJ.xlsx"]
     data_list = []
 
@@ -210,7 +190,7 @@ if __name__ == '__main__':
         work_data, total_data = get_working_data(workbook, working_time_sheet_name, is_last_month)
         data_list.append(total_data)
 
-        #最后一个月更新模板
+        # 最后一个月更新模板
         if is_last_month and not is_chart_mode:
             print("更新模板: " + file)
             update_template(work_data, template)
@@ -222,3 +202,18 @@ if __name__ == '__main__':
     print(f"无法处理数据 {len(exception_data)} 条，需手动校正：")
     for data in exception_data:
         print(data)
+
+
+if __name__ == '__main__':
+    print("+" * 50)
+    is_chart_mode = True
+    background_color = "9933cc"
+    chart_title = "请假工时数据分析"
+    working_time_sheet_name = "Sheet1"
+    exception_data = []
+
+    # 获取模板
+    template_path = "./Excel/导出工时明细11月.xlsx"
+    template = load_workbook(filename=template_path)
+
+    run()
