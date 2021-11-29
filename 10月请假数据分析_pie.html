@@ -7,11 +7,11 @@
 
 </head>
 <body>
-    <div id="c620e75e69f24925a563f945a42497d0" class="chart-container" style="width:1400px; height:800px;"></div>
+    <div id="7a58b324284c480f87a2c2ba140dab41" class="chart-container" style="width:1400px; height:800px;"></div>
     <script>
-        var chart_c620e75e69f24925a563f945a42497d0 = echarts.init(
-            document.getElementById('c620e75e69f24925a563f945a42497d0'), 'white', {renderer: 'canvas'});
-        var option_c620e75e69f24925a563f945a42497d0 = {
+        var chart_7a58b324284c480f87a2c2ba140dab41 = echarts.init(
+            document.getElementById('7a58b324284c480f87a2c2ba140dab41'), 'white', {renderer: 'canvas'});
+        var option_7a58b324284c480f87a2c2ba140dab41 = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -86,7 +86,7 @@
                 },
                 {
                     "name": "\u4ea7\u68c0\u5047",
-                    "value": 8.0
+                    "value": 40.0
                 },
                 {
                     "name": "\u966a\u4ea7\u5047",
@@ -94,18 +94,24 @@
                 }
             ],
             "radius": [
-                "25%",
+                "0%",
                 "75%"
             ],
             "center": [
                 "50%",
                 "50%"
             ],
-            "roseType": "radius",
             "label": {
                 "show": true,
                 "position": "top",
-                "margin": 8
+                "margin": 8,
+                "formatter": "{b}: {c}"
+            },
+            "rippleEffect": {
+                "show": true,
+                "brushType": "stroke",
+                "scale": 2.5,
+                "period": 4
             }
         }
     ],
@@ -234,7 +240,7 @@
         }
     }
 };
-        chart_c620e75e69f24925a563f945a42497d0.setOption(option_c620e75e69f24925a563f945a42497d0);
+        chart_7a58b324284c480f87a2c2ba140dab41.setOption(option_7a58b324284c480f87a2c2ba140dab41);
     </script>
 </body>
 </html>

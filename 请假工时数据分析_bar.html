@@ -2,21 +2,21 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>10月请假数据分析</title>
+    <title>请假工时数据分析</title>
             <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
 
 </head>
 <body>
-    <div id="3273725c67b545e6881527ffd1faeed7" class="chart-container" style="width:900px; height:500px;"></div>
+    <div id="20a30345007e4a51bf404d7cd0f59bdc" class="chart-container" style="width:900px; height:500px;"></div>
     <script>
-        var chart_3273725c67b545e6881527ffd1faeed7 = echarts.init(
-            document.getElementById('3273725c67b545e6881527ffd1faeed7'), 'light', {renderer: 'canvas'});
-        var option_3273725c67b545e6881527ffd1faeed7 = {
+        var chart_20a30345007e4a51bf404d7cd0f59bdc = echarts.init(
+            document.getElementById('20a30345007e4a51bf404d7cd0f59bdc'), 'light', {renderer: 'canvas'});
+        var option_20a30345007e4a51bf404d7cd0f59bdc = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
-    "animationEasing": "cubicOut",
-    "animationDelay": 0,
+    "animationEasing": "elasticOut",
+    "animationDelay": 1000,
     "animationDurationUpdate": 300,
     "animationEasingUpdate": "cubicOut",
     "animationDelayUpdate": 0,
@@ -86,17 +86,52 @@
                 "position": "top",
                 "margin": 8
             }
+        },
+        {
+            "type": "bar",
+            "name": "11\u6708\u8bf7\u5047",
+            "legendHoverLink": true,
+            "data": [
+                121.0,
+                0,
+                782.5,
+                96.0,
+                24.0,
+                0,
+                67.0,
+                0,
+                16.0,
+                56.0
+            ],
+            "showBackground": false,
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": true,
+                "position": "top",
+                "margin": 8
+            }
         }
     ],
     "legend": [
         {
             "data": [
                 "9\u6708\u8bf7\u5047",
-                "10\u6708\u8bf7\u5047"
+                "10\u6708\u8bf7\u5047",
+                "11\u6708\u8bf7\u5047"
             ],
             "selected": {
                 "9\u6708\u8bf7\u5047": true,
-                "10\u6708\u8bf7\u5047": true
+                "10\u6708\u8bf7\u5047": true,
+                "11\u6708\u8bf7\u5047": true
             },
             "show": true,
             "padding": 5,
@@ -182,14 +217,14 @@
     ],
     "title": [
         {
-            "text": "10\u6708\u8bf7\u5047\u6570\u636e\u5206\u6790",
-            "left": "200",
+            "text": "\u8bf7\u5047\u5de5\u65f6\u6570\u636e\u5206\u6790",
+            "left": "100",
             "padding": 5,
             "itemGap": 10
         }
     ]
 };
-        chart_3273725c67b545e6881527ffd1faeed7.setOption(option_3273725c67b545e6881527ffd1faeed7);
+        chart_20a30345007e4a51bf404d7cd0f59bdc.setOption(option_20a30345007e4a51bf404d7cd0f59bdc);
     </script>
 </body>
 </html>
