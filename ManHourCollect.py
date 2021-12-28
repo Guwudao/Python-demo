@@ -24,12 +24,12 @@ WARNING_STRING = """
 def update_template(working_data, template):
     sheet = template["工时数据"]
     print(">" * 20 + " 开始自动关联填写 " + "<" * 20)
-    for (name, staff_id, hour, type, date) in working_data:
+    for (name, staff_id, hour, d_type, date) in working_data:
         # print(name, hour, type, date)
         for row in sheet.rows:
             target_staff_id = row[2].value
             working_type = row[6].value
-            if target_staff_id != staff_id or working_type != type:
+            if target_staff_id != staff_id or working_type != d_type:
                 continue
 
             for cell, working_date in zip(row, sheet["1"]):
@@ -41,7 +41,7 @@ def update_template(working_data, template):
                     cell.fill = pattern_fill
                     cell.value = float(hour)
                     # print("-" * 30)
-                    print(f"{name} {working_date.value} {type} {hour} 小时 已自动导入")
+                    print(f"{name} {working_date.value} {d_type} {hour} 小时 已自动导入")
 
     template.save(filename=template_path)
     print(f"\n——————————— 已自动导入 {len(working_data)} 条请假数据 ———————————")
@@ -49,9 +49,9 @@ def update_template(working_data, template):
     print("备注：为方便校验，已将自动填充单元格标为 &>> 紫色 <<&\n")
 
 
-def get_working_data(workingTime, working_time_sheet_name, is_summarize_exception_data):
+def get_working_data(working_time, working_time_sheet_name, is_summarize_exception_data):
     print("=" * 20 + " 开始数据分析过滤 " + "=" * 20)
-    sheet = workingTime[working_time_sheet_name]
+    sheet = working_time[working_time_sheet_name]
     working_data = []
     shiJia, tiaoXiu, nianJia, hunJia, chanJia, buRuJia, bingJia, sangJia, chanJianJia, peiChanJia = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     for row in sheet.rows:
@@ -85,9 +85,9 @@ def get_working_data(workingTime, working_time_sheet_name, is_summarize_exceptio
                     working_data.append((name, staff_id, column, "事假", date.value))
                 elif "调" in cell.value:
                     # 调休
-                    if is_chart_mode:
-                        working_data.append((name, staff_id, column, "调休", date.value))
-                    tiaoXiu += float(column)
+
+                    # working_data.append((name, staff_id, column, "调休", date.value))
+                    # tiaoXiu += float(column)
                     pass
                 elif "年" in cell.value:
                     # 年假
@@ -127,7 +127,7 @@ def get_working_data(workingTime, working_time_sheet_name, is_summarize_exceptio
           f"\n哺乳假共 {buRuJia} 小时，\n病假共 {bingJia} 小时，\n丧假共 {sangJia} 小时，\n产检假共 {chanJianJia} 小时，\n陪产假共 {peiChanJia} 小时")
     data_list = [("事假", shiJia), ("调休", tiaoXiu), ("年假", nianJia), ("婚假", hunJia), ("产假", chanJia),
                  ("哺乳假", buRuJia), ("病假", bingJia), ("丧假", sangJia), ("产检假", chanJianJia), ("陪产假", peiChanJia)]
-    return (working_data, data_list)
+    return working_data, data_list
 
 
 def help_tips(s):
@@ -143,40 +143,47 @@ def pie_chart_generation(data_list, title):
             width="1400px",
             height="800px",
         ))
-            .add(
+        .add(
             data_pair=data_list,
             series_name=title,
             radius=["25%", "75%"],
             rosetype="radius"
         )
-            .set_global_opts(toolbox_opts=ToolboxOpts(is_show=True, pos_top="50px"),
-                             title_opts=TitleOpts(title=title, pos_top="80px", pos_left="200px"))
-            .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
-            .render(f"{title}_pie.html")
+        .set_global_opts(toolbox_opts=ToolboxOpts(is_show=True, pos_top="50px"),
+                         title_opts=TitleOpts(title=title, pos_top="80px", pos_left="200px"))
+        .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
     )
+    pie_city.render(f"{title}_pie.html")
     print(">" * 20 + f" {title} 饼图制作完成 " + "<" * 20)
 
 
 def chart_generation(data_list, title):
     animation = opts.AnimationOpts(animation_delay=1000, animation_easing="elasticOut")
-    bar_sex = Bar(init_opts=InitOpts(page_title=title, theme=ThemeType.LIGHT, animation_opts=animation))
+    bar = Bar(init_opts=InitOpts(width="1000px",
+                                 height="600px",
+                                 page_title=title,
+                                 theme=ThemeType.LIGHT,
+                                 animation_opts=animation))
 
     type_list = [i for i, j in data_list[0]]
-    bar_sex.add_xaxis(type_list)
+    bar.add_xaxis(type_list)
 
     for index, data in enumerate(data_list):
-        bar_sex.add_yaxis(f"{index + 9}月请假", [j for i, j in data])
+        bar.add_yaxis(series_name=f"{index + 9}月请假", y_axis=[j for i, j in data])
         # 按月生成饼图
-        pie_chart_generation(data, f"{index + 9}月请假数据")
+        if update_pie_chart:
+            pie_chart_generation(data, f"{index + 9}月请假数据")
 
-    bar_sex.set_global_opts(toolbox_opts=ToolboxOpts(is_show=True, pos_top="30px", pos_left="800px"),
-                            title_opts=TitleOpts(title=title, pos_left="100"))
-    bar_sex.render(f"{title}_bar.html")
+    bar.set_global_opts(toolbox_opts=ToolboxOpts(is_show=True, pos_top="30px", pos_left="800px"),
+                        title_opts=TitleOpts(title=title, pos_left="50")
+                        # yaxis_opts=opts.AxisOpts(interval=100,
+                        #                          splitline_opts=opts.SplitLineOpts(is_show=True))
+                        )
+    bar.render(f"{title}_bar.html")
     print("================ 所有图表制作完成 ================")
 
 
 def run():
-    file_list = ["9月请假明细.xlsx", "10月请假明细给JJ.xlsx", "11月请假明细给JJ.xlsx"]
     data_list = []
 
     for index, file in enumerate(file_list):
@@ -199,21 +206,24 @@ def run():
     if is_chart_mode:
         chart_generation(data_list, chart_title)
 
-    print(f"无法处理数据 {len(exception_data)} 条，需手动校正：")
+    if len(exception_data) > 0:
+        print(f"无法处理数据 {len(exception_data)} 条，需手动校正：")
+
     for data in exception_data:
         print(data)
 
 
 if __name__ == '__main__':
-    print("+" * 50)
-    is_chart_mode = True
     background_color = "9933cc"
-    chart_title = "请假工时数据分析"
+    chart_title = "2020请假工时数据分析"
     working_time_sheet_name = "Sheet1"
     exception_data = []
+    file_list = ["9月请假明细.xlsx", "10月请假明细给JJ.xlsx", "11月请假明细给JJ.xlsx", "12月请假明细给JJ.xlsx"]
+    is_chart_mode = True
+    update_pie_chart = False  # False for only Pie chart
 
     # 获取模板
-    template_path = "./Excel/导出工时明细11月.xlsx"
+    template_path = "./Excel/导出工时明细 12月初版.xlsx"
     template = load_workbook(filename=template_path)
 
     run()

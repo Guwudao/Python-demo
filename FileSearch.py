@@ -58,7 +58,6 @@ def folder_remove(folder_name, filter_key):
 
 
 def file_move(path, default_dir):
-
     if not os.path.exists(default_dir):
         os.makedirs(default_dir)
 
