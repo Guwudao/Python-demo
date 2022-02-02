@@ -123,11 +123,28 @@ def get_working_data(working_time, working_time_sheet_name, is_summarize_excepti
                     working_data.append((name, staff_id, column, "陪产假", date.value))
 
     # print(working_data)
-    print(f"事假共 {shiJia} 小时，\n调休共 {tiaoXiu} 小时，\n年假共 {nianJia} 小时，\n婚假共 {hunJia} 小时，\n产假共 {chanJia} 小时，"
-          f"\n哺乳假共 {buRuJia} 小时，\n病假共 {bingJia} 小时，\n丧假共 {sangJia} 小时，\n产检假共 {chanJianJia} 小时，\n陪产假共 {peiChanJia} 小时")
-    # 因工时表格不统计调休，所以没有加入("调休", tiaoXiu)
-    data_list = [("事假", shiJia), ("年假", nianJia), ("婚假", hunJia), ("产假", chanJia),
-                 ("哺乳假", buRuJia), ("病假", bingJia), ("丧假", sangJia), ("产检假", chanJianJia), ("陪产假", peiChanJia)]
+    print(f"事假共 {shiJia} 小时，"
+          f"\n调休共 {tiaoXiu} 小时，"
+          f"\n年假共 {nianJia} 小时，"
+          f"\n婚假共 {hunJia} 小时，"
+          f"\n产假共 {chanJia} 小时，"
+          f"\n哺乳假共 {buRuJia} 小时，"
+          f"\n病假共 {bingJia} 小时，"
+          f"\n丧假共 {sangJia} 小时，"
+          f"\n产检假共 {chanJianJia} 小时，"
+          f"\n陪产假共 {peiChanJia} 小时")
+
+    # 因为 调休 不纳入统计，哺乳假 和 丧假 一直为0，暂不统计
+    data_list = [("事假", shiJia),
+                 # ("调休", tiaoXiu),
+                 ("年假", nianJia),
+                 ("婚假", hunJia),
+                 ("产假", chanJia),
+                 # ("哺乳假", buRuJia),
+                 ("病假", bingJia),
+                 # ("丧假", sangJia),
+                 ("产检假", chanJianJia),
+                 ("陪产假", peiChanJia)]
     return working_data, data_list
 
 
@@ -144,15 +161,18 @@ def pie_chart_generation(data_list, title):
             width="1400px",
             height="800px",
         ))
-        .add(
+            .add(
             data_pair=data_list,
             series_name=title,
             radius=["25%", "75%"],
             rosetype="radius"
         )
-        .set_global_opts(toolbox_opts=ToolboxOpts(is_show=True, pos_top="50px"),
-                         title_opts=TitleOpts(title=title, pos_top="80px", pos_left="200px"))
-        .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
+            .set_global_opts(toolbox_opts=ToolboxOpts(is_show=True,
+                                                      pos_top="50px"),
+                             title_opts=TitleOpts(title=title,
+                                                  pos_top="80px",
+                                                  pos_left="200px"))
+            .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
     )
     pie_city.render(f"{title}_pie.html")
     print(">" * 20 + f" {title} 饼图制作完成 " + "<" * 20)
@@ -179,11 +199,16 @@ def chart_generation(data_list, title):
         if update_pie_chart:
             pie_chart_generation(data, f"{month}月请假数据")
 
-    bar.set_global_opts(toolbox_opts=ToolboxOpts(is_show=True, pos_top="30px", pos_left="800px"),
-                        title_opts=TitleOpts(title=title, pos_left="50")
-                        # yaxis_opts=opts.AxisOpts(interval=100,
-                        #                          splitline_opts=opts.SplitLineOpts(is_show=True))
-                        )
+    bar.set_global_opts(toolbox_opts=ToolboxOpts(is_show=True,
+                                                orient="vertical",
+                                                item_size=20,
+                                                pos_top="30px",
+                                                pos_left="1100px"),
+                        title_opts=TitleOpts(title=title,
+                                             pos_left="50")
+        # yaxis_opts=opts.AxisOpts(interval=100,
+        #                          splitline_opts=opts.SplitLineOpts(is_show=True))
+    )
     bar.render(f"{title}_bar.html")
     print("================ 所有图表制作完成 ================")
 
@@ -224,7 +249,7 @@ if __name__ == '__main__':
     working_time_sheet_name = "Sheet1"
     exception_data = []
     file_list = ["9月请假明细.xlsx", "10月请假明细给JJ.xlsx", "11月请假明细给JJ.xlsx", "12月请假明细给JJ.xlsx", "1月请假明细给JJ最终.xlsx"]
-    is_chart_mode = False  # False only for update target excel
+    is_chart_mode = True  # False only for update target excel
     update_pie_chart = False  # False for only Summary Pie chart
 
     # 获取模板
